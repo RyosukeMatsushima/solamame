@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import numpy as np
+
 from modules.states_space.axis import Axis
 
 
@@ -48,11 +50,34 @@ class StatesSpace:
 
         return states
 
+    def get_gradient(self, element_number):
+        unit_length = 1
 
-"""
-            axis_point = int(pointer / self.axes[axis_name].length)
-            pointer -= 
+        gradient_vector = []
 
-            unit_length = unit_length / self.axes[axis_name].length #this should be int
-            pointer = int(pointer / unit_length)
-"""
+        for axis in self.axes:
+            # check in range
+            upper_point = element_number + unit_length
+            lower_point = element_number - unit_length
+
+            gradient = 0
+
+            if lower_point < 0:
+                upper_value = self.values[element_number + unit_length]
+                value = self.values[element_number]
+                gradient = (upper_value - value) / axis.resolution
+
+            elif lower_point >= self.element_count:
+                lower_value = self.values[element_number - unit_length]
+                value = self.values[element_number]
+                gradient = (value - lower_value) / axis.resolution
+
+            else:
+                upper_value = self.values[element_number + unit_length]
+                lower_value = self.values[element_number - unit_length]
+                gradient = (upper_value - lower_value) / (axis.resolution * 2)
+
+            gradient_vector.append(gradient)
+            unit_length *= axis.length
+
+        return np.array(gradient_vector)
