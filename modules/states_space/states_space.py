@@ -21,8 +21,6 @@ class StatesSpace:
 
         self.values = [0.0] * self.element_count
 
-    # def gradient(self, states):
-
     def get_element_number(self, states):
         element_number = 0
 
@@ -33,6 +31,9 @@ class StatesSpace:
             unit_length *= axis.length
 
         return element_number
+
+    def add_value(self, element_number, value):
+        self.values[element_number] += value
 
     def set_value(self, element_number, value):
         self.values[element_number] = value
@@ -62,12 +63,15 @@ class StatesSpace:
 
             gradient = 0
 
-            if lower_point < 0:
+            if element_number % (axis.length * unit_length) < unit_length:
                 upper_value = self.values[element_number + unit_length]
                 value = self.values[element_number]
                 gradient = (upper_value - value) / axis.resolution
 
-            elif lower_point >= self.element_count:
+            elif (
+                element_number % (axis.length * unit_length)
+                >= (axis.length - 1) * unit_length
+            ):
                 lower_value = self.values[element_number - unit_length]
                 value = self.values[element_number]
                 gradient = (value - lower_value) / axis.resolution
@@ -81,3 +85,20 @@ class StatesSpace:
             unit_length *= axis.length
 
         return np.array(gradient_vector)
+
+    def get_2d_sheet(self, x_axis_name, y_axis_name, states):
+        x_axis = [axis for axis in self.axes if axis.name == x_axis_name][0]
+        y_axis = [axis for axis in self.axes if axis.name == y_axis_name][0]
+
+        sheet = np.zeros((x_axis.length, y_axis.length)).tolist()
+
+        for x_point in range(x_axis.length):
+            for y_point in range(y_axis.length):
+                states[x_axis_name] = x_axis.get_value(x_point)
+                states[y_axis_name] = y_axis.get_value(y_point)
+
+                element_number = self.get_element_number(states)
+
+                sheet[x_point][y_point] = self.values[element_number]
+
+        return sheet

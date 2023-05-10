@@ -60,6 +60,27 @@ class StatesSpaceTest(unittest.TestCase):
         )
         self.assertEqual(gradient_vector.tolist(), expect_gradient_vector.tolist())
 
+    def test_get_gradient_with_same_value(self):
+        reference_axes = [
+            {"name": "a0", "min_value": -1.0, "max_value": 1.0, "resolution": 1},
+            {"name": "a1", "min_value": -1.0, "max_value": 1.0, "resolution": 1},
+        ]
+
+        for axis in reference_axes:
+            self.statesSpace.add_axis(
+                axis["name"], axis["min_value"], axis["max_value"], axis["resolution"]
+            )
+
+        self.statesSpace.create()
+
+        for element_number in range(self.statesSpace.element_count):
+            self.statesSpace.set_value(element_number, 100)
+
+        expect_gradient_vector = np.array([0.0, 0.0])
+        for element_number in range(self.statesSpace.element_count):
+            gradient_vector = self.statesSpace.get_gradient(element_number)
+            self.assertEqual(gradient_vector.tolist(), expect_gradient_vector.tolist())
+
 
 if __name__ == "__main__":
     unittest.main()
