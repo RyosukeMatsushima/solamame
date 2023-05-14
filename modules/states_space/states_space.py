@@ -32,6 +32,25 @@ class StatesSpace:
 
         return element_number
 
+    # return {"axis_name": [lower_neighbor_element_number, upper_neighbor_element_number], ...}
+    def get_neighbors_element_number(self, element_number):
+
+        neighbors = {}
+
+        unit_length = 1
+        for axis in self.axes:
+
+            exponent_value = (element_number) % (axis.length * unit_length)
+
+            lower_number = element_number - unit_length if exponent_value >= unit_length else None
+            upper_number = element_number + unit_length if (exponent_value < (axis.length - 1) * unit_length) else None
+
+            neighbors.update({axis.name: [lower_number, upper_number]})
+
+            unit_length *= axis.length
+
+        return neighbors
+
     def add_value(self, element_number, value):
         self.values[element_number] += value
 
