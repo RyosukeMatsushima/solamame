@@ -62,21 +62,17 @@ class TestTransitionMatrix(unittest.TestCase):
 
                 self.assertTrue(np.all(expect == result))
 
-            if inputs == (0, 1):
-                delta = time_resolution * inputs[1] * statesSpace.axes[1].resolution
+            if inputs == (-1, 0):
+                delta = abs(time_resolution * inputs[0] * statesSpace.axes[0].resolution)
                 expect = np.zeros(
                     (statesSpace.element_count, statesSpace.element_count)
                 )
                 for element_number in range(statesSpace.element_count):
                     expect[element_number, element_number] = 1.0 - delta
 
-                    lower_element_number = element_number - statesSpace.axes[0].length
-                    if lower_element_number >= 0:
+                    lower_element_number = element_number - 1
+                    if element_number % statesSpace.axes[0].length >= 1:
                         expect[element_number, lower_element_number] = delta
-
-                show_data(expect)
-                show_data(transition_matrix.toarray())
-                show_data(transition_matrix.toarray() - expect)
 
                 self.assertTrue(np.all(expect == transition_matrix.toarray()))
 
@@ -87,8 +83,39 @@ class TestTransitionMatrix(unittest.TestCase):
                 expect = np.zeros(statesSpace.element_count)
                 for element_number in range(statesSpace.element_count):
                     expect[element_number] = element_number * (1.0 - delta)
-                    lower_element_number = element_number - statesSpace.axes[0].length
-                    if lower_element_number > 0:
+                    lower_element_number = element_number - 1
+                    if element_number % statesSpace.axes[0].length >= 1:
                         expect[element_number] += lower_element_number * delta
+
+                self.assertTrue(np.all(expect == result))
+
+            if inputs == (0, 1):
+                delta = time_resolution * inputs[1] * statesSpace.axes[1].resolution
+                expect = np.zeros(
+                    (statesSpace.element_count, statesSpace.element_count)
+                )
+                for element_number in range(statesSpace.element_count):
+                    expect[element_number, element_number] = 1.0 - delta
+
+                    upper_element_number = element_number + statesSpace.axes[0].length
+                    if element_number % statesSpace.element_count < (statesSpace.element_count - statesSpace.axes[0].length):
+                        expect[element_number, upper_element_number] = delta
+
+                #show_data(expect)
+                #show_data(transition_matrix.toarray())
+                #show_data(transition_matrix.toarray() - expect)
+
+                self.assertTrue(np.all(expect == transition_matrix.toarray()))
+
+                # multiple result test.
+                test_x = np.array([i for i in range(statesSpace.element_count)])
+                result = transition_matrix @ test_x
+
+                expect = np.zeros(statesSpace.element_count)
+                for element_number in range(statesSpace.element_count):
+                    expect[element_number] = element_number * (1.0 - delta)
+                    upper_element_number = element_number + statesSpace.axes[0].length
+                    if element_number % statesSpace.element_count < (statesSpace.element_count - statesSpace.axes[0].length):
+                        expect[element_number] += upper_element_number * delta
 
                 self.assertTrue(np.all(expect == result))

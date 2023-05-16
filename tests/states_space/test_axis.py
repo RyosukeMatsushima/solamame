@@ -4,6 +4,7 @@ from modules.states_space.axis import Axis
 
 
 class AxisTest(unittest.TestCase):
+
     def test_init(self):
         def check():
             axis = Axis(name, min_value, max_value, resolution)

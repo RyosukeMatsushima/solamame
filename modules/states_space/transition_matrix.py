@@ -29,6 +29,8 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
             for axis, transition_value in zip(state_space.axes, transition_vector):
                 next_element = (
                     neighbors[axis.name][0]
+
+                    # for dynamic programing we want max{ sum( V(x') P(x'|x, u) ) }.
                     if transition_value < 0
                     else neighbors[axis.name][1]
                 )
@@ -36,8 +38,8 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
                 probability_to_go_next = abs(transition_value * axis.resolution)
                 probability_to_remain -= probability_to_go_next
 
-                if next_element:
-                    matrix[next_element, element_number] = probability_to_go_next
+                if next_element is not None:
+                    matrix[element_number, next_element] = probability_to_go_next
 
             if probability_to_remain < 0:
                 raise ValueError("probability_to_remain < 0: time_step is too big")
