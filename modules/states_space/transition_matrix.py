@@ -29,7 +29,6 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
             for axis, transition_value in zip(state_space.axes, transition_vector):
                 next_element = (
                     neighbors[axis.name][0]
-
                     # for dynamic programing we want max{ sum( V(x') P(x'|x, u) ) }.
                     if transition_value < 0
                     else neighbors[axis.name][1]

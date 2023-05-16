@@ -94,55 +94,85 @@ class StatesSpaceTest(unittest.TestCase):
 
         self.statesSpace.create()
 
-        #first element
+        # first element
         a0 = 0
         a1 = 0
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [None, a0 + 1], "a1": [None, elemet_number + self.statesSpace.axes[0].length]}
+        expect = {
+            "a0": [None, a0 + 1],
+            "a1": [None, elemet_number + self.statesSpace.axes[0].length],
+        }
         self.assertEqual(result, expect)
 
-        #last element
+        # last element
         a0 = self.statesSpace.axes[0].length - 1
         a1 = self.statesSpace.axes[1].length - 1
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [elemet_number - 1, None], "a1": [elemet_number - self.statesSpace.axes[0].length, None]}
+        expect = {
+            "a0": [elemet_number - 1, None],
+            "a1": [elemet_number - self.statesSpace.axes[0].length, None],
+        }
         self.assertEqual(result, expect)
 
         a0 = 4
         a1 = 3
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [elemet_number - 1, elemet_number + 1], "a1": [elemet_number - self.statesSpace.axes[0].length, elemet_number + self.statesSpace.axes[0].length]}
+        expect = {
+            "a0": [elemet_number - 1, elemet_number + 1],
+            "a1": [
+                elemet_number - self.statesSpace.axes[0].length,
+                elemet_number + self.statesSpace.axes[0].length,
+            ],
+        }
         self.assertEqual(result, expect)
 
         a0 = 0
         a1 = 6
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [None, elemet_number + 1], "a1": [elemet_number - self.statesSpace.axes[0].length, elemet_number + self.statesSpace.axes[0].length]}
+        expect = {
+            "a0": [None, elemet_number + 1],
+            "a1": [
+                elemet_number - self.statesSpace.axes[0].length,
+                elemet_number + self.statesSpace.axes[0].length,
+            ],
+        }
         self.assertEqual(result, expect)
 
         a0 = 9
         a1 = 0
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [elemet_number - 1, elemet_number + 1], "a1": [None, elemet_number + self.statesSpace.axes[0].length]}
+        expect = {
+            "a0": [elemet_number - 1, elemet_number + 1],
+            "a1": [None, elemet_number + self.statesSpace.axes[0].length],
+        }
         self.assertEqual(result, expect)
 
         a0 = (self.statesSpace.axes[0].length * 10) - 1
         a1 = 13
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [elemet_number - 1, None], "a1": [elemet_number - self.statesSpace.axes[0].length, elemet_number + self.statesSpace.axes[0].length]}
+        expect = {
+            "a0": [elemet_number - 1, None],
+            "a1": [
+                elemet_number - self.statesSpace.axes[0].length,
+                elemet_number + self.statesSpace.axes[0].length,
+            ],
+        }
         self.assertEqual(result, expect)
 
         a0 = 12
         a1 = (self.statesSpace.axes[1].length * 10) - 1
         elemet_number = a0 + a1 * self.statesSpace.axes[0].length
         result = self.statesSpace.get_neighbors_element_number(elemet_number)
-        expect = {"a0": [elemet_number - 1, elemet_number + 1], "a1": [elemet_number - self.statesSpace.axes[0].length, None]}
+        expect = {
+            "a0": [elemet_number - 1, elemet_number + 1],
+            "a1": [elemet_number - self.statesSpace.axes[0].length, None],
+        }
         self.assertEqual(result, expect)
 
 

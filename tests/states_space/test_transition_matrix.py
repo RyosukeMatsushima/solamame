@@ -63,7 +63,9 @@ class TestTransitionMatrix(unittest.TestCase):
                 self.assertTrue(np.all(expect == result))
 
             if inputs == (-1, 0):
-                delta = abs(time_resolution * inputs[0] * statesSpace.axes[0].resolution)
+                delta = abs(
+                    time_resolution * inputs[0] * statesSpace.axes[0].resolution
+                )
                 expect = np.zeros(
                     (statesSpace.element_count, statesSpace.element_count)
                 )
@@ -98,12 +100,14 @@ class TestTransitionMatrix(unittest.TestCase):
                     expect[element_number, element_number] = 1.0 - delta
 
                     upper_element_number = element_number + statesSpace.axes[0].length
-                    if element_number % statesSpace.element_count < (statesSpace.element_count - statesSpace.axes[0].length):
+                    if element_number % statesSpace.element_count < (
+                        statesSpace.element_count - statesSpace.axes[0].length
+                    ):
                         expect[element_number, upper_element_number] = delta
 
-                #show_data(expect)
-                #show_data(transition_matrix.toarray())
-                #show_data(transition_matrix.toarray() - expect)
+                # show_data(expect)
+                # show_data(transition_matrix.toarray())
+                # show_data(transition_matrix.toarray() - expect)
 
                 self.assertTrue(np.all(expect == transition_matrix.toarray()))
 
@@ -115,7 +119,9 @@ class TestTransitionMatrix(unittest.TestCase):
                 for element_number in range(statesSpace.element_count):
                     expect[element_number] = element_number * (1.0 - delta)
                     upper_element_number = element_number + statesSpace.axes[0].length
-                    if element_number % statesSpace.element_count < (statesSpace.element_count - statesSpace.axes[0].length):
+                    if element_number % statesSpace.element_count < (
+                        statesSpace.element_count - statesSpace.axes[0].length
+                    ):
                         expect[element_number] += upper_element_number * delta
 
                 self.assertTrue(np.all(expect == result))
