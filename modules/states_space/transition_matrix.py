@@ -3,7 +3,6 @@
 import numpy as np
 
 from scipy.sparse import lil_matrix
-from scipy.sparse.linalg import cg
 
 from modules.states_space.states_space import StatesSpace
 

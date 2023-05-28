@@ -4,8 +4,10 @@ import numpy as np
 
 from modules.dynamic_programming.dynamic_programming import DynamicProgramming
 from modules.states_space.states_space import StatesSpace
+from modules.states_space.transition_matrix import *
 
 from tests.dynamic_programming.cost_to_go import cost_to_go
+from tests.dynamic_programming.functions import Functions
 
 # TODO: remove
 from modules.tools.fig_2d import *
@@ -39,33 +41,7 @@ class TestDynamicProgramming(unittest.TestCase):
 
         self.time_resolution = 0.1
 
-        def dynamic_func(state: "point as list", control_input):
-            return np.array([control_input[1], control_input[0]])
-            # return np.array(control_input)
-
-        def terminal_cost_func(state: "point as list"):
-            # return ((state["x"] - goal[0]) ** 2 + (state["y"] - goal[1]) ** 2) ** 0.5
-            if state["x"] == self.goal[0] and state["y"] == self.goal[1]:
-                return 0
-            else:
-                return 100
-
-        def stage_cost_func(state, control_input):
-            if state:
-                obstacle_cost = 100 if [state["x"], state["y"]] in obstacles else 0
-            else:
-                obstacle_cost = 0
-
-            distance_cost = (
-                (state["x"] - self.goal[0]) ** 2 + (state["y"] - self.goal[1]) ** 2
-            ) ** 0.5 * 100
-
-            return (
-                (control_input[0] ** 2 + control_input[1] ** 2) ** 0.5
-                + obstacle_cost
-                + distance_cost
-            )
-
+        # create state space
         statesSpace = StatesSpace()
 
         statesSpace.add_axis("x", 0, 10, 1)
@@ -73,11 +49,35 @@ class TestDynamicProgramming(unittest.TestCase):
 
         statesSpace.create()
 
+
+
+
+        def dynamic_func(state: "point as list", control_input):
+            return np.array([control_input[0], control_input[1]])
+            # return np.array(control_input)
+
+        def is_goal(element_number):
+            state = statesSpace.get_states_from(element_number)
+            return state["x"] == self.goal[0] and state["y"] == self.goal[1]
+
+        def is_obstace(element_number):
+            state = statesSpace.get_states_from(element_number)
+            return [state["x"], state["y"]] in obstacles
+
+
+        functions = Functions(statesSpace, self.inputs_set, self.time_resolution, is_goal, is_obstace)
+
+
+        # create transition matrix
+        transition_matrix_set = get_transition_matrix(
+            statesSpace, dynamic_func, self.inputs_set, self.time_resolution
+        )
+
         self.dynamicProgramming = DynamicProgramming(
             statesSpace,
-            dynamic_func,
-            stage_cost_func,
-            terminal_cost_func,
+            transition_matrix_set,
+            functions.stage_cost_map,
+            functions.terminal_cost_map,
             self.time_resolution,
             8,
             0,
@@ -88,23 +88,19 @@ class TestDynamicProgramming(unittest.TestCase):
         cost_array = cost_to_go(self.grid, self.goal)
 
         def debug_func(time):
-            sheet = self.dynamicProgramming.current_value_function.get_2d_sheet(
+            print("debug_func")
+            #print(self.dynamicProgramming.value_function.get_state_space(time))
+            sheet = self.dynamicProgramming.value_function.get_state_space(time).get_2d_sheet(
                 "x", "y", {"x": 0, "y": 0}
             )
+            #print(sheet)
             show_data(sheet)
 
-            print(time)
-            print(self.dynamicProgramming.inputs_space.get_state_space(time))
-            sheet = self.dynamicProgramming.inputs_space.get_state_space(
-                time
-            ).get_2d_sheet("x", "y", {"x": 0, "y": 0})
-            show_vector_field(np.array(sheet))
+            #print(self.dynamicProgramming.inputs_space.get_state_space(time))
+            #sheet = self.dynamicProgramming.inputs_space.get_state_space(
+            #    time
+            #).get_2d_sheet("x", "y", {"x": 0, "y": 0})
+            #show_vector_field(np.array(sheet))
 
         self.dynamicProgramming.calculate(debug_func)
 
-    def test_get_appropriate_input(self):
-        print(self.dynamicProgramming.get_appropriate_input(np.array([0.0, 0.0]), None))
-        print("aaaaaaaaaaaaaaaaaaaaaaa")
-        print(
-            self.dynamicProgramming.get_appropriate_input(np.array([12.0, 0.0]), None)
-        )
