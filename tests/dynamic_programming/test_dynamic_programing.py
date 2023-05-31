@@ -96,11 +96,22 @@ class TestDynamicProgramming(unittest.TestCase):
             #print(sheet)
             show_data(sheet)
 
+
+            input_index = self.dynamicProgramming.inputs_space.get_state_space(time).get_2d_sheet(
+                "x", "y", {"x": 0, "y": 0}
+            )
+            print(input_index)
+            show_data(input_index)
+
+            input_vector_space = [ [ self.inputs_set[index] for index in l ] for l in input_index ]
+            print(input_vector_space)
+
+
             #print(self.dynamicProgramming.inputs_space.get_state_space(time))
             #sheet = self.dynamicProgramming.inputs_space.get_state_space(
             #    time
             #).get_2d_sheet("x", "y", {"x": 0, "y": 0})
-            #show_vector_field(np.array(sheet))
+            show_vector_field(np.array(input_vector_space))
 
         self.dynamicProgramming.calculate(debug_func)
 
