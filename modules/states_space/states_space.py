@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
+import json
 
 from modules.states_space.axis import Axis
 
@@ -19,7 +20,29 @@ class StatesSpace:
         for axis in self.axes:
             self.element_count *= axis.length
 
-        self.values = [0.0] * self.element_count
+        self.values = np.zeros(self.element_count)
+
+    def save(self, path_to_dir):
+        axes_info = [ axis.get_info() for axis in self.axes ]
+
+        with open(path_to_dir + '/axes_info.json', 'w') as f:
+            json.dump(axes_info, f)
+
+        np.save(path_to_dir + '/values.npy', self.values)
+
+    def read(self, path_to_dir):
+        self.__init__()
+
+        with open(path_to_dir + '/axes_info.json') as f:
+            axes_info = json.load(f)
+
+            for axis_info in axes_info:
+                self.add_axis(axis_info["name"], axis_info["min_value"], axis_info["max_value"], axis_info["resolution"])
+
+        self.create()
+
+        self.values = np.load(path_to_dir + '/values.npy')
+
 
     def get_element_number(self, states):
         element_number = 0
@@ -125,3 +148,4 @@ class StatesSpace:
                 sheet[x_point][y_point] = self.values[element_number]
 
         return sheet
+

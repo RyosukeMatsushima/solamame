@@ -50,8 +50,6 @@ class TestDynamicProgramming(unittest.TestCase):
         statesSpace.create()
 
 
-
-
         def dynamic_func(state: "point as list", control_input):
             return np.array([control_input[0], control_input[1]])
             # return np.array(control_input)
@@ -93,7 +91,6 @@ class TestDynamicProgramming(unittest.TestCase):
             sheet = self.dynamicProgramming.value_function.get_state_space(time).get_2d_sheet(
                 "x", "y", {"x": 0, "y": 0}
             )
-            #print(sheet)
             show_data(sheet)
 
 
@@ -106,11 +103,6 @@ class TestDynamicProgramming(unittest.TestCase):
             input_vector_space = [ [ self.inputs_set[index] for index in l ] for l in input_index ]
             print(input_vector_space)
 
-
-            #print(self.dynamicProgramming.inputs_space.get_state_space(time))
-            #sheet = self.dynamicProgramming.inputs_space.get_state_space(
-            #    time
-            #).get_2d_sheet("x", "y", {"x": 0, "y": 0})
             show_vector_field(np.array(input_vector_space))
 
         self.dynamicProgramming.calculate(debug_func)

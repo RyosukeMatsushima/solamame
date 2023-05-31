@@ -175,6 +175,29 @@ class StatesSpaceTest(unittest.TestCase):
         }
         self.assertEqual(result, expect)
 
+    def test_save_and_read(self):
+        reference_axes = [
+            {"name": "a0", "min_value": -1.2, "max_value": 1.2, "resolution": 10},
+            {"name": "a1", "min_value": -1.8, "max_value": 2.1, "resolution": 10},
+        ]
+
+        for axis in reference_axes:
+            self.statesSpace.add_axis(
+                axis["name"], axis["min_value"], axis["max_value"], axis["resolution"]
+            )
+
+        self.statesSpace.create()
+
+        self.statesSpace.values = np.random.rand(self.statesSpace.element_count)
+
+        values_before_save = self.statesSpace.values
+
+        self.statesSpace.save(".")
+        self.statesSpace.read(".")
+
+        self.assertEqual(reference_axes[0]["min_value"], self.statesSpace.axes[0].min_value)
+        self.assertTrue((values_before_save == self.statesSpace.values).all())
+
 
 if __name__ == "__main__":
     unittest.main()
