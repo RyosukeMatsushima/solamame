@@ -18,7 +18,10 @@ class TimeEvolutionStatesSpace:
     def get_state_space(self, time):
         states_space = copy.deepcopy(self.init_states_space)
         states_space.values = self.values[self.time_axis.get_point(time)]
-        print(self.values)
-        print(self.values[self.time_axis.get_point(time)])
         return states_space
+
+    def get_value(self, time, state):
+        state_space = self.get_state_space(time)
+        element_number = state_space.get_element_number(state)
+        return state_space.values[element_number]
 
