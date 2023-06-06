@@ -17,7 +17,7 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
     ]
 
     for element_number in range(state_space.element_count):
-        states = state_space.get_states_from(element_number)
+        states = list(state_space.get_states_from(element_number).values())
 
         neighbors = state_space.get_neighbors_element_number(element_number)
 
