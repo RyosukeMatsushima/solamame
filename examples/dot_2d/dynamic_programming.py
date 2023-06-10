@@ -6,20 +6,13 @@ from modules.states_space.transition_matrix import *
 
 from submodules.physics_simulator.dot_2d.dot_2d import Dot2D
 
-from tests.dynamic_programming.cost_to_go import cost_to_go
-from tests.dynamic_programming.functions import Functions
+from examples.dot_2d.functions import Functions
 
 from examples.dot_2d.simulate import simulate
 
 # TODO: remove
 from modules.tools.fig_2d import *
 
-
-obstacles = [[5, 5], [4, 5], [5, 4], [3, 5]]
-# Add obstacle data to the grid
-#        grid[2][2] = 1  # set cell (2,2) as an obstacle
-#        grid[3][2] = 1
-#        grid[7][7] = 1
 
 inputs_set = [
     (0, 0),
@@ -49,16 +42,24 @@ statesSpace.add_axis("y", 0, 8, 1)
 statesSpace.create()
 
 
-def is_goal(element_number):
+def goal_function(element_number):
     state = statesSpace.get_states_from(element_number)
-    return state["x"] == goal[0] and state["y"] == goal[1]
+    is_goal = state["x"] == goal[0] and state["y"] == goal[1]
+    return 0.0 if is_goal else 100.0
 
-def is_obstace(element_number):
+def is_obstacle(element_number):
     state = statesSpace.get_states_from(element_number)
-    return [state["x"], state["y"]] in obstacles
+
+    if 3 < state["x"] < 7 and 4 < state["y"] < 6:
+        return True
+
+    return False
+
+def obstace_function(element_number):
+    return 100.0 if is_obstacle(element_number) else 0.0
 
 
-functions = Functions(statesSpace, inputs_set, time_resolution, is_goal, is_obstace)
+functions = Functions(statesSpace, inputs_set, time_resolution, goal_function, obstace_function, 100)
 
 
 # create transition matrix

@@ -1,5 +1,6 @@
 import numpy as np
 
+#TODO: applay modules/dynamic_programming/functions_base
 class Functions:
 
     def __init__(self, state_space, control_inputs_set, time_step, is_goal, is_obstace):
