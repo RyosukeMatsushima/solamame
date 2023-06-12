@@ -49,7 +49,6 @@ class TestDynamicProgramming(unittest.TestCase):
 
         statesSpace.create()
 
-
         def dynamic_func(state: "point as list", control_input):
             return np.array([control_input[0], control_input[1]])
             # return np.array(control_input)
@@ -62,9 +61,9 @@ class TestDynamicProgramming(unittest.TestCase):
             state = statesSpace.get_states_from(element_number)
             return [state["x"], state["y"]] in obstacles
 
-
-        functions = Functions(statesSpace, self.inputs_set, self.time_resolution, is_goal, is_obstace)
-
+        functions = Functions(
+            statesSpace, self.inputs_set, self.time_resolution, is_goal, is_obstace
+        )
 
         # create transition matrix
         transition_matrix_set = get_transition_matrix(
@@ -87,23 +86,23 @@ class TestDynamicProgramming(unittest.TestCase):
 
         def debug_func(time):
             print("debug_func")
-            #print(self.dynamicProgramming.value_function.get_state_space(time))
-            sheet = self.dynamicProgramming.value_function.get_state_space(time).get_2d_sheet(
-                "x", "y", {"x": 0, "y": 0}
-            )
+            # print(self.dynamicProgramming.value_function.get_state_space(time))
+            sheet = self.dynamicProgramming.value_function.get_state_space(
+                time
+            ).get_2d_sheet("x", "y", {"x": 0, "y": 0})
             show_data(sheet)
 
-
-            input_index = self.dynamicProgramming.inputs_space.get_state_space(time).get_2d_sheet(
-                "x", "y", {"x": 0, "y": 0}
-            )
+            input_index = self.dynamicProgramming.inputs_space.get_state_space(
+                time
+            ).get_2d_sheet("x", "y", {"x": 0, "y": 0})
             print(input_index)
             show_data(input_index)
 
-            input_vector_space = [ [ self.inputs_set[index] for index in l ] for l in input_index ]
+            input_vector_space = [
+                [self.inputs_set[index] for index in l] for l in input_index
+            ]
             print(input_vector_space)
 
             show_vector_field(np.array(input_vector_space))
 
         self.dynamicProgramming.calculate(debug_func)
-

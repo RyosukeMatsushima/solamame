@@ -24,4 +24,3 @@ class TimeEvolutionStatesSpace:
         state_space = self.get_state_space(time)
         element_number = state_space.get_element_number(state)
         return state_space.values[element_number]
-

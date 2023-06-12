@@ -33,5 +33,9 @@ class Axis:
         return int((value - self.min_value) * self.resolution + 0.5)
 
     def get_info(self):
-        return {"name": self.name, "min_value": self.min_value, "max_value": self.max_value, "resolution": self.resolution}
-
+        return {
+            "name": self.name,
+            "min_value": self.min_value,
+            "max_value": self.max_value,
+            "resolution": self.resolution,
+        }

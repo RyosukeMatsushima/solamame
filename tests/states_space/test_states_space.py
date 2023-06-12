@@ -195,7 +195,9 @@ class StatesSpaceTest(unittest.TestCase):
         self.statesSpace.save(".")
         self.statesSpace.read(".")
 
-        self.assertEqual(reference_axes[0]["min_value"], self.statesSpace.axes[0].min_value)
+        self.assertEqual(
+            reference_axes[0]["min_value"], self.statesSpace.axes[0].min_value
+        )
         self.assertTrue((values_before_save == self.statesSpace.values).all())
 
 

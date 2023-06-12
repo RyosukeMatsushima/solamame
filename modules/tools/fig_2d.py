@@ -2,14 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-#TODO: remove
+# TODO: remove
 def show_data(data):
     plt.figure()
     plt.imshow(data)
 
     plt.show()
 
-#TODO: remove
+
+# TODO: remove
 def show_vector_field(data):
     X, Y = np.meshgrid(range(data.shape[0]), range(data.shape[1]))
     U = data[:, :, 0]
@@ -23,9 +24,7 @@ def show_vector_field(data):
 
 
 class Fig2D:
-
     def __init__(self):
-        
         self.fig, self.ax = plt.subplots()
 
     def add_vector_field(self, title, data):
@@ -44,4 +43,3 @@ class Fig2D:
     def show(self):
         plt.legend()
         plt.show()
-

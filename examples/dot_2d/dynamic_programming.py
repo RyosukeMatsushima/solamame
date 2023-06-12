@@ -47,6 +47,7 @@ def goal_function(element_number):
     is_goal = state["x"] == goal[0] and state["y"] == goal[1]
     return 0.0 if is_goal else 100.0
 
+
 def is_obstacle(element_number):
     state = statesSpace.get_states_from(element_number)
 
@@ -59,11 +60,14 @@ def is_obstacle(element_number):
 
     return False
 
+
 def obstace_function(element_number):
     return 100000.0 if is_obstacle(element_number) else 0.0
 
 
-functions = Functions(statesSpace, inputs_set, time_resolution, goal_function, obstace_function, 100)
+functions = Functions(
+    statesSpace, inputs_set, time_resolution, goal_function, obstace_function, 100
+)
 
 
 # create transition matrix
@@ -85,12 +89,11 @@ dynamicProgramming = DynamicProgramming(
 
 def debug_func(time):
     print("debug_func")
-    #print(dynamicProgramming.value_function.get_state_space(time))
+    # print(dynamicProgramming.value_function.get_state_space(time))
     sheet = dynamicProgramming.value_function.get_state_space(time).get_2d_sheet(
         "x", "y", {"x": 0, "y": 0}
     )
     show_data(sheet)
-
 
     input_index = dynamicProgramming.inputs_space.get_state_space(time).get_2d_sheet(
         "x", "y", {"x": 0, "y": 0}
@@ -98,7 +101,7 @@ def debug_func(time):
     print(input_index)
     show_data(input_index)
 
-    input_vector_space = [ [ inputs_set[index] for index in l ] for l in input_index ]
+    input_vector_space = [[inputs_set[index] for index in l] for l in input_index]
     print(input_vector_space)
 
     show_vector_field(np.array(input_vector_space))
@@ -108,7 +111,9 @@ dynamicProgramming.calculate(debug_func)
 
 init_state = {"x": 3, "y": 7}
 
-result = simulate(dynamicProgramming.inputs_space, inputs_set, start_time, end_time, init_state)
+result = simulate(
+    dynamicProgramming.inputs_space, inputs_set, start_time, end_time, init_state
+)
 
 fig2D = Fig2D()
 
@@ -116,22 +121,22 @@ state_space = dynamicProgramming.value_function.get_state_space(end_time)
 
 state_space.values = functions.obstacle_cost_map
 
-fig2D.add_img(np.array(state_space.get_2d_sheet(
-        "x", "y", {"x": 0, "y": 0}
-        )).T)
-fig2D.add_line("path", [result["X"].to_numpy() * state_space.axis_named("x").resolution, result["Y"].to_numpy() * state_space.axis_named("y").resolution])
-
-
-input_index = dynamicProgramming.inputs_space.get_state_space(end_time/3).get_2d_sheet(
-    "x", "y", {"x": 0, "y": 0}
+fig2D.add_img(np.array(state_space.get_2d_sheet("x", "y", {"x": 0, "y": 0})).T)
+fig2D.add_line(
+    "path",
+    [
+        result["X"].to_numpy() * state_space.axis_named("x").resolution,
+        result["Y"].to_numpy() * state_space.axis_named("y").resolution,
+    ],
 )
-input_vector_space = np.array([ [ inputs_set[index] for index in l ] for l in input_index ])
+
+
+input_index = dynamicProgramming.inputs_space.get_state_space(
+    end_time / 3
+).get_2d_sheet("x", "y", {"x": 0, "y": 0})
+input_vector_space = np.array([[inputs_set[index] for index in l] for l in input_index])
 fig2D.add_vector_field("inputs_space", input_vector_space)
- 
+
 fig2D.show()
 
 print(result["X"].to_numpy())
-
-
-
-

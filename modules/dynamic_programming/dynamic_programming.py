@@ -45,20 +45,28 @@ class DynamicProgramming:
 
         while time > self.init_time:
             self.next_step(time)
-            #debug_func(time)
+            # debug_func(time)
             time -= self.time_resolution
 
         debug_func(time)
 
     def next_step(self, time):
+        next_value_function_set = np.array(
+            [
+                self.stage_cost_map(inputs)
+                + transition_matrix @ self.current_value_function
+                for inputs, transition_matrix in zip(
+                    self.inputs_set, self.transition_matrix_set
+                )
+            ]
+        )
 
-        next_value_function_set = np.array( [self.stage_cost_map(inputs) + transition_matrix @ self.current_value_function for inputs, transition_matrix in zip(self.inputs_set, self.transition_matrix_set) ])
- 
-        #TODO: change stateSpace.values as ndarray.
+        # TODO: change stateSpace.values as ndarray.
         optimal_inputs_index = np.argmin(next_value_function_set, axis=0)
 
-        self.current_value_function = np.choose(optimal_inputs_index, next_value_function_set)
+        self.current_value_function = np.choose(
+            optimal_inputs_index, next_value_function_set
+        )
 
         self.value_function.set_value(time, self.current_value_function)
         self.inputs_space.set_value(time, optimal_inputs_index)
-
