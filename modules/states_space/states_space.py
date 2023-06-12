@@ -132,9 +132,12 @@ class StatesSpace:
 
         return np.array(gradient_vector)
 
+    def axis_named(self, name):
+        return [axis for axis in self.axes if axis.name == name][0]
+
     def get_2d_sheet(self, x_axis_name, y_axis_name, states):
-        x_axis = [axis for axis in self.axes if axis.name == x_axis_name][0]
-        y_axis = [axis for axis in self.axes if axis.name == y_axis_name][0]
+        x_axis = self.axis_named(x_axis_name)
+        y_axis = self.axis_named(y_axis_name)
 
         sheet = np.zeros((x_axis.length, y_axis.length)).tolist()
 

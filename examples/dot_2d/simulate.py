@@ -32,9 +32,12 @@ def simulate(inputs_space, inputs_set, start_time, end_time, init_state):
         df = df.append(tmp_se, ignore_index=True)
         dot2D.step(dt)
 
+
     df.to_csv("./data.csv", index=False)
     df.plot(x='X', y='Y')
     df.plot(x='time', y='X')
     df.plot(x='time', y='Y')
     plt.show()
+
+    return df
 
