@@ -31,6 +31,8 @@ class FunctionsBase:
             if is_edge:
                 self.edge_cost_map[i] = edge_cost
 
+        self.goal_cost_map = self.terminal_cost_map()
+
     def terminal_cost_map(self):
         return np.array(
             [

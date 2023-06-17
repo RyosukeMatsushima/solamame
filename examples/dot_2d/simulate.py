@@ -17,7 +17,7 @@ def simulate(inputs_space, inputs_set, start_time, end_time, init_state):
 
     df = pd.DataFrame(columns=["time", "X", "Y"])
 
-    axes_name = [axis.name for axis in inputs_space.get_state_space(start_time).axes]
+    axes_name = [axis.name for axis in inputs_space.axes]
 
     # def add_data(df):
     for s in range(0, max_step):
@@ -26,7 +26,8 @@ def simulate(inputs_space, inputs_set, start_time, end_time, init_state):
         print(time)
 
         state = {axes_name[i]: s for i, s in enumerate(dot2D.state)}
-        dot2D.input = inputs_set[inputs_space.get_value(time, state)]
+        element_number = inputs_space.get_element_number(state)
+        dot2D.input = inputs_set[inputs_space.values[element_number]]
         tmp_se = pd.Series(tmp_data, index=df.columns)
         df = df.append(tmp_se, ignore_index=True)
         dot2D.step(dt)

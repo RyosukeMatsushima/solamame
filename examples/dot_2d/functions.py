@@ -35,4 +35,4 @@ class Functions(FunctionsBase):
         control_inputs_cost_map = self.control_inputs_cost_map_set[
             self.control_inputs_set.index(control_inputs)
         ]
-        return self.obstacle_cost_map + self.edge_cost_map + control_inputs_cost_map
+        return self.obstacle_cost_map + self.edge_cost_map + control_inputs_cost_map + self.goal_cost_map * 0.01
