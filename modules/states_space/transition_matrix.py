@@ -17,12 +17,10 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
     ]
 
     for element_number in range(state_space.element_count):
-        states = list(state_space.get_states_from(element_number).values())
-
         neighbors = state_space.get_neighbors_element_number(element_number)
 
         for inputs, matrix in zip(inputs_set, matrix_set):
-            transition_vector = dynamic_function(states, inputs) * time_step
+            transition_vector = dynamic_function(element_number, inputs) * time_step
 
             probability_to_remain = 1.0
             for axis, transition_value in zip(state_space.axes, transition_vector):

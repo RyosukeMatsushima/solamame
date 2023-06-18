@@ -1,6 +1,6 @@
 import numpy as np
 
-from modules.dynamic_programming.dynamic_programming import DynamicProgramming
+from modules.dynamic_programming.dynamic_programming_in_finite_time import DynamicProgramming
 from modules.states_space.states_space import StatesSpace
 from modules.states_space.transition_matrix import *
 
@@ -80,23 +80,22 @@ dynamicProgramming = DynamicProgramming(
     transition_matrix_set,
     functions.stage_cost_map,
     functions.terminal_cost_map,
+    time_resolution,
+    end_time,
+    start_time,
     inputs_set,
-    0.00000000000001,
-    100000,
-    600
 )
 
 
-def debug_func():
+def debug_func(time):
     print("debug_func")
-    sheet = dynamicProgramming.current_value_function.get_2d_sheet(
+    # print(dynamicProgramming.value_function.get_state_space(time))
+    sheet = dynamicProgramming.value_function.get_state_space(time).get_2d_sheet(
         "x", "y", {"x": 0, "y": 0}
     )
-    sheet = np.array(sheet)
-    sheet = np.where(sheet > 60, 60, sheet)
     show_data(sheet)
 
-    input_index = dynamicProgramming.inputs_space.get_2d_sheet(
+    input_index = dynamicProgramming.inputs_space.get_state_space(time).get_2d_sheet(
         "x", "y", {"x": 0, "y": 0}
     )
     print(input_index)
@@ -118,7 +117,7 @@ result = simulate(
 
 fig2D = Fig2D()
 
-state_space = dynamicProgramming.current_value_function
+state_space = dynamicProgramming.value_function.get_state_space(end_time)
 
 state_space.values = functions.obstacle_cost_map
 
@@ -132,7 +131,9 @@ fig2D.add_line(
 )
 
 
-input_index = dynamicProgramming.inputs_space.get_2d_sheet("x", "y", {"x": 0, "y": 0})
+input_index = dynamicProgramming.inputs_space.get_state_space(
+    end_time / 3
+).get_2d_sheet("x", "y", {"x": 0, "y": 0})
 input_vector_space = np.array([[inputs_set[index] for index in l] for l in input_index])
 fig2D.add_vector_field("inputs_space", input_vector_space)
 
