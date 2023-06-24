@@ -143,6 +143,7 @@ class StatesSpace:
         x_axis = self.axis_named(x_axis_name)
         y_axis = self.axis_named(y_axis_name)
 
+        #TODO: chenge to ndarray.
         sheet = np.zeros((x_axis.length, y_axis.length)).tolist()
 
         for x_point in range(x_axis.length):
@@ -155,3 +156,14 @@ class StatesSpace:
                 sheet[x_point][y_point] = self.values[element_number]
 
         return sheet
+
+    def get_axis_velues(self, axis_name, states):
+        axis = self.axis_named(axis_name)
+        axis_values = np.zeros(axis.length)
+
+        for point in range(axis.length):
+            states[axis_name] = axis.get_value(point)
+            element_number = self.get_element_number(states)
+            axis_values[point] = self.values[point]
+
+        return axis_values
