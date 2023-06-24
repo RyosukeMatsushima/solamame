@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import numpy as np
-
 from scipy.sparse import lil_matrix
+from tqdm import tqdm
 
 from modules.states_space.states_space import StatesSpace
 
@@ -16,7 +16,7 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
         for _ in inputs_set
     ]
 
-    for element_number in range(state_space.element_count):
+    for element_number in tqdm(range(state_space.element_count)):
         neighbors = state_space.get_neighbors_element_number(element_number)
 
         for inputs, matrix in zip(inputs_set, matrix_set):
