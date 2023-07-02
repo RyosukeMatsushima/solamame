@@ -1,47 +1,86 @@
-from scipy.sparse import identity
-from scipy.sparse.linalg import inv
-from scipy.sparse import csc_matrix
+import copy
+from tqdm import tqdm
+
+from modules.states_space.time_evolution_states_space import TimeEvolutionStatesSpace
 
 # TODO: remove
 from modules.tools.fig_2d import *
+import time
 
 class FindCostToGo:
     def __init__(
         self,
         goal_probabilistic_space,
-        transition_matrix,
-        damping_value):
+        transition_matrix_set,
+        cost_resolution,
+        max_cost,
+        init_cost,
+        ):
+
+        self.cost_to_go_space = copy.deepcopy(goal_probabilistic_space)
+        self.inputs_space = copy.deepcopy(goal_probabilistic_space)
 
         self.goal_probabilistic_space = goal_probabilistic_space
-        self.transition_matrix = transition_matrix
-        self.damping_value = damping_value
+        self.transition_matrix_set = transition_matrix_set
+
+        self.cost_resolution = cost_resolution
+        self.max_cost = max_cost
+        self.init_cost = init_cost
+
 
     def calculate(self):
-        M = csc_matrix(identity(self.goal_probabilistic_space.element_count) - self.damping_value * self.transition_matrix)
 
-        #print(self.goal_probabilistic_space.values)
+        # TODO: create inpus_space
+        #TODO: remove
+        probabilistic_function = TimeEvolutionStatesSpace(
+            self.goal_probabilistic_space, 1/self.cost_resolution, self.init_cost, self.max_cost
+        )
 
-        print("calculate inversed matrix")
-        M = inv(M)
-        #show_data(np.where(M.toarray() > 0, 1, 0))
+        transition_matrix = np.sum(self.transition_matrix_set, axis=0) / len(self.transition_matrix_set)
 
-        print("calculate dot production")
-        Q_inf = M @ self.goal_probabilistic_space.values
-        print(Q_inf)
+        current_probablistic_space = self.goal_probabilistic_space.values
 
-        self.goal_probabilistic_space.values = Q_inf
+        # set -1 as invalid value
+        #TODO: set init value as max cost
+        cost_to_go = np.full_like(current_probablistic_space, -1)
 
-        sheet = self.goal_probabilistic_space.get_2d_sheet("x", "J", {"x": 0, "y": 2, "J": 10})
-        threshold = 0.00001
-        sheet = np.where(np.array(sheet) > threshold, threshold, sheet)
+        #TODO: remove
+        probabilistic_function.set_value(self.init_cost, current_probablistic_space)
+
+        # calculate cost to go function
+        for i in tqdm(range(probabilistic_function.time_axis.length)):
+            cost = probabilistic_function.time_axis.get_value(i)
+            current_probablistic_space = transition_matrix @ current_probablistic_space
+
+            #TODO: remove
+            probabilistic_function.set_value(cost, current_probablistic_space)
+
+            threshold = self.get_threshold(current_probablistic_space, 10 ** (-7))
+            reachable_points = np.where(current_probablistic_space > threshold, cost, -1)
+            cost_to_go = np.where(cost_to_go > 0, cost_to_go, reachable_points)
+
+        self.goal_probabilistic_space.values = cost_to_go
+        sheet = self.goal_probabilistic_space.get_2d_sheet("x", "y", {"x": 0, "y": 2})
         show_data(sheet)
 
+        # calculate input space
+        next_value_function_set = np.array(
+            [
+                transition_matrix @ cost_to_go
+                for transition_matrix in self.transition_matrix_set
+            ]
+        )
 
-        for i in range(5):
-            print(i)
-            sheet = self.goal_probabilistic_space.get_2d_sheet("x", "y", {"x": 1, "y": 1, "J": i * 1})
-            threshold = 0.000000000001
-            sheet = np.where(np.array(sheet) > threshold, threshold, sheet)
-            show_data(sheet)
+        # TODO: change stateSpace.values as ndarray.
+        optimal_inputs_index = np.argmin(next_value_function_set, axis=0)
 
+        self.cost_to_go_space.values = cost_to_go
+        self.inputs_space.values = optimal_inputs_index
+
+    def get_threshold(self, values, a):
+        values = np.sort(values)
+        cumsum = np.cumsum(values)
+        total_sum = cumsum[-1]
+
+        return values[np.argmax(cumsum > total_sum * a) - 1]
 
