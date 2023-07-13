@@ -5,8 +5,10 @@ from modules.states_space.transition_matrix import *
 
 from examples.dot_2d.base import *
 
+time_step = 0.1
+
 def stage_cost_map(inputs):
-    return np.array([stage_cost_function(element_number, inputs) for element_number in range(statesSpace.element_count)])
+    return np.array([stage_cost_function(element_number, inputs) for element_number in range(statesSpace.element_count)]) * time_step
 
 def terminal_cost_map():
     return np.array([terminal_cost_function(element_number) for element_number in range(statesSpace.element_count)])
@@ -15,11 +17,10 @@ def transition_function(element_number, inputs):
     states = list(statesSpace.get_states_from(element_number).values())
     return dynamics(states, inputs)
 
-time_resolution = 0.1
 
 # create transition matrix
 transition_matrix_set = get_transition_matrix(
-    statesSpace, transition_function, inputs_set, time_resolution
+    statesSpace, transition_function, inputs_set, time_step
 )
 
 dynamicProgramming = DynamicProgramming(
