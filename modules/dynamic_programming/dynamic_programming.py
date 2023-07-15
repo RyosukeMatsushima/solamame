@@ -33,12 +33,13 @@ class DynamicProgramming:
 
         step = 0
         while step < self.max_step:
-            if self.next_step():
-                debug_func()
+            evaluation_value = self.next_step()
+            if evaluation_value < self.end_threshold:
+                debug_func(step, evaluation_value)
                 return True
 
             if step % self.debug_frequency == 0:
-                debug_func()
+                debug_func(step, evaluation_value)
 
             step += 1
 
@@ -63,11 +64,10 @@ class DynamicProgramming:
             optimal_inputs_index, next_value_function_set
         )
 
-        if np.all(abs(new_value_function - self.current_value_function.values) < self.end_threshold):
-            return True
+        evaluation_value = max(abs(new_value_function - self.current_value_function.values))
 
         self.current_value_function.values = new_value_function
         self.inputs_space.values = optimal_inputs_index
 
-        return False
+        return evaluation_value
 

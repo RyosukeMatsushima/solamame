@@ -5,7 +5,7 @@ from modules.states_space.transition_matrix import *
 
 from examples.dot_2d.base import *
 
-time_step = 0.1
+time_step = 0.01
 
 def stage_cost_map(inputs):
     return np.array([stage_cost_function(element_number, inputs) for element_number in range(statesSpace.element_count)]) * time_step
@@ -31,30 +31,12 @@ dynamicProgramming = DynamicProgramming(
     inputs_set,
     0.00001,
     100000,
-    600
+    10
 )
 
-
-def debug_func():
+def debug_func(step, evaluation_value):
     print("debug_func")
-    sheet = dynamicProgramming.current_value_function.get_2d_sheet(
-        "x", "y", {"x": 0, "y": 0}
-    )
-    sheet = np.array(sheet)
-    sheet = np.where(sheet > 60, 60, sheet)
-    show_data(sheet)
-
-    input_index = dynamicProgramming.inputs_space.get_2d_sheet(
-        "x", "y", {"x": 0, "y": 0}
-    )
-    print(input_index)
-    show_data(input_index)
-
-    input_vector_space = [[inputs_set[index] for index in l] for l in input_index]
-    print(input_vector_space)
-
-    show_vector_field(np.array(input_vector_space))
-
+    print("step: {}, evaluation_value: {}".format(step, evaluation_value))
 
 dynamicProgramming.calculate(debug_func)
 
