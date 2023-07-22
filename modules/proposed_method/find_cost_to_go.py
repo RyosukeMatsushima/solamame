@@ -2,8 +2,6 @@ import numpy as np
 import copy
 from tqdm import tqdm
 
-from modules.states_space.time_evolution_states_space import TimeEvolutionStatesSpace
-
 # TODO: remove
 import time
 
@@ -30,12 +28,6 @@ class FindCostToGo:
 
     def calculate(self, is_reached_threshold):
 
-        # TODO: create inpus_space
-        #TODO: remove
-        probabilistic_function = TimeEvolutionStatesSpace(
-            self.goal_probabilistic_space, 1/self.cost_resolution, self.init_cost, self.max_cost
-        )
-
         transition_matrix = np.sum(self.transition_matrix_set, axis=0) / len(self.transition_matrix_set)
 
         current_probablistic_space = self.goal_probabilistic_space.values
@@ -44,16 +36,9 @@ class FindCostToGo:
         #TODO: set init value as max cost
         cost_to_go = np.full_like(current_probablistic_space, -1)
 
-        #TODO: remove
-        probabilistic_function.set_value(self.init_cost, current_probablistic_space)
-
         # calculate cost to go function
-        for i in tqdm(range(probabilistic_function.time_axis.length)):
-            cost = probabilistic_function.time_axis.get_value(i)
+        for cost in tqdm(np.arange(self.init_cost, self.max_cost, self.cost_resolution)):
             current_probablistic_space = transition_matrix @ current_probablistic_space
-
-            #TODO: remove
-            probabilistic_function.set_value(cost, current_probablistic_space)
 
             threshold = self.get_threshold(current_probablistic_space, is_reached_threshold)
             reachable_points = np.where(current_probablistic_space > threshold, cost, -1)
