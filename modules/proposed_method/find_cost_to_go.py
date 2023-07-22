@@ -1,10 +1,10 @@
+import numpy as np
 import copy
 from tqdm import tqdm
 
 from modules.states_space.time_evolution_states_space import TimeEvolutionStatesSpace
 
 # TODO: remove
-from modules.tools.fig_2d import *
 import time
 
 class FindCostToGo:
@@ -28,7 +28,7 @@ class FindCostToGo:
         self.init_cost = init_cost
 
 
-    def calculate(self):
+    def calculate(self, is_reached_threshold):
 
         # TODO: create inpus_space
         #TODO: remove
@@ -55,13 +55,11 @@ class FindCostToGo:
             #TODO: remove
             probabilistic_function.set_value(cost, current_probablistic_space)
 
-            threshold = self.get_threshold(current_probablistic_space, 10 ** (-7))
+            threshold = self.get_threshold(current_probablistic_space, is_reached_threshold)
             reachable_points = np.where(current_probablistic_space > threshold, cost, -1)
             cost_to_go = np.where(cost_to_go > 0, cost_to_go, reachable_points)
 
         self.goal_probabilistic_space.values = cost_to_go
-        sheet = self.goal_probabilistic_space.get_2d_sheet("x", "y", {"x": 0, "y": 2})
-        show_data(sheet)
 
         # calculate input space
         next_value_function_set = np.array(
