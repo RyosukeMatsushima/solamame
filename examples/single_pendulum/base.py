@@ -61,18 +61,27 @@ def evaluate(inputs_space, cost_to_go_space):
         inputs_space, inputs_set, start_time, end_time, init_state
     )
     
+    state_space = cost_to_go_space
+    img = np.array(inputs_space.get_2d_sheet("x_dot", "x", {"x": 0, "x_dot": 0}))
+    show_fig_with_path(img, state_space, result)
+
+    img = np.array(state_space.get_2d_sheet("x_dot", "x", {"x": 0, "x_dot": 0}))
+    show_fig_with_path(img, state_space, result)
+
+
+    print(result["X"].to_numpy())
+
+def show_fig_with_path(img, state_space, result):
     fig2D = Fig2D()
     
     # TODO: modify figures
-    state_space = cost_to_go_space
     
     #state_space.values = functions.obstacle_cost_map
 
     aspect = 0.2
 
     fig2D.add_img(
-        np.array(inputs_space.get_2d_sheet("x_dot", "x", {"x": 0, "x_dot": 0})),
-#        np.array(state_space.get_2d_sheet("x_dot", "x", {"x": 0, "x_dot": 0})),
+        img,
         [
         state_space.axis_named("x").min_value,
         state_space.axis_named("x").max_value,
@@ -89,7 +98,4 @@ def evaluate(inputs_space, cost_to_go_space):
         ],
     )
 
-
     fig2D.show()
-
-    print(result["X"].to_numpy())
