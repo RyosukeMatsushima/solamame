@@ -43,6 +43,6 @@ findCostToGo = FindCostToGo(
 
 
 print("start findCostToGo")
-findCostToGo.calculate()
+findCostToGo.calculate(10 ** (-7))
 
 evaluate(findCostToGo.inputs_space, findCostToGo.cost_to_go_space)
