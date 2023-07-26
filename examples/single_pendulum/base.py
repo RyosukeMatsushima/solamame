@@ -22,7 +22,10 @@ statesSpace.add_axis("x", -1, 7, 10)
 statesSpace.add_axis("x_dot", -30, 30, 2)
 statesSpace.create()
 
-dynamics = SinglePendulum([0.0, 0.0]).dynamics
+init_state = {"x": 3.14, "x_dot": 0}
+model = SinglePendulum((init_state["x"], init_state["x_dot"]))
+
+dynamics = model.dynamics
 
 
 def is_goal(element_number):
@@ -55,10 +58,9 @@ def terminal_cost_function(element_number):
 def evaluate(inputs_space, cost_to_go_space):
     start_time = 0.0
     end_time = 20.0
-    init_state = {"x": 3.14, "x_dot": 0}
     
     result = simulate(
-        inputs_space, inputs_set, start_time, end_time, init_state
+        model, inputs_space, inputs_set, start_time, end_time
     )
     
     state_space = cost_to_go_space
@@ -73,10 +75,6 @@ def evaluate(inputs_space, cost_to_go_space):
 
 def show_fig_with_path(img, state_space, result):
     fig2D = Fig2D()
-    
-    # TODO: modify figures
-    
-    #state_space.values = functions.obstacle_cost_map
 
     aspect = 0.2
 
