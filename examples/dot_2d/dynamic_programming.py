@@ -3,41 +3,26 @@ import numpy as np
 from modules.dynamic_programming.dynamic_programming import DynamicProgramming
 from modules.states_space.transition_matrix import *
 
-from examples.dot_2d.base import *
+from examples.common.dynamic_programming_common import *
+
+from examples.dot_2d.base import Base
 
 time_step = 0.01
 
-def stage_cost_map(inputs):
-    return np.array([stage_cost_function(element_number, inputs) for element_number in range(statesSpace.element_count)]) * time_step
+end_threshold = 0.00001
+max_step = 100000
+debug_frequency = 10
 
-def terminal_cost_map():
-    return np.array([terminal_cost_function(element_number) for element_number in range(statesSpace.element_count)])
+base = Base()
 
-def transition_function(element_number, inputs):
-    states = list(statesSpace.get_states_from(element_number).values())
-    return dynamics(states, inputs)
+calculate_dynamic_programming(base.statesSpace,
+                              base.stage_cost_function,
+                              base.dynamics,
+                              base.evaluate,
+                              base.inputs_set,
+                              base.terminal_cost_function,
+                              time_step,
+                              end_threshold,
+                              max_step,
+                              debug_frequency)
 
-
-# create transition matrix
-transition_matrix_set = get_transition_matrix(
-    statesSpace, transition_function, inputs_set, time_step
-)
-
-dynamicProgramming = DynamicProgramming(
-    statesSpace,
-    transition_matrix_set,
-    stage_cost_map,
-    terminal_cost_map,
-    inputs_set,
-    0.00001,
-    100000,
-    10
-)
-
-def debug_func(step, evaluation_value):
-    print("debug_func")
-    print("step: {}, evaluation_value: {}".format(step, evaluation_value))
-
-dynamicProgramming.calculate(debug_func)
-
-evaluate(dynamicProgramming.inputs_space, dynamicProgramming.current_value_function)
