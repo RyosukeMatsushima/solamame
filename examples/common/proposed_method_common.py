@@ -21,7 +21,7 @@ def calculate_proposed_method(proballistic_space,
         states_dt = dynamics(states, inputs) 
 
         if stage_cost <= 0:
-            if not np.all(states_dt == 0.0):
+            if not np.all(abs(states_dt) < 0.00000001):
                 raise RuntimeError("invalid cost value. it's devided by zero")
 
             return np.zeros(len(states_dt))

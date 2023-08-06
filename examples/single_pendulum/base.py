@@ -56,8 +56,6 @@ class Base(BaseCommon):
         img = np.array(state_space.get_2d_sheet("x_dot", "x", {"x": 0, "x_dot": 0}))
         self.show_fig_with_path(img, state_space, result)
     
-        print(result["X"].to_numpy())
-    
     
     def show_fig_with_path(self, img, state_space, result):
         fig2D = Fig2D()
@@ -77,8 +75,8 @@ class Base(BaseCommon):
         fig2D.add_line(
             "path",
             [
-                result["X"].to_numpy(),
-                result["Y"].to_numpy(),
+                result["x"].to_numpy(),
+                result["x_dot"].to_numpy(),
             ],
         )
     
