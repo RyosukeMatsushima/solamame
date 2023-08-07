@@ -8,7 +8,7 @@ def simulate(model, inputs_space, inputs_set, start_time, end_time):
     dt = 10 ** (-3)
     max_step = int((end_time - start_time) / dt)
 
-    df = pd.DataFrame(columns=["time"] + [ axis.name for axis in inputs_space.axes ])
+    df = pd.DataFrame(columns=["time"] + [axis.name for axis in inputs_space.axes])
 
     axes_name = [axis.name for axis in inputs_space.axes]
 

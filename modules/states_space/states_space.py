@@ -143,7 +143,7 @@ class StatesSpace:
         x_axis = self.axis_named(x_axis_name)
         y_axis = self.axis_named(y_axis_name)
 
-        #TODO: chenge to ndarray.
+        # TODO: chenge to ndarray.
         sheet = np.zeros((x_axis.length, y_axis.length)).tolist()
 
         for x_point in range(x_axis.length):

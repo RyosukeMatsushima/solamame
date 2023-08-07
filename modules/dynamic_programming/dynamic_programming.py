@@ -14,7 +14,7 @@ class DynamicProgramming:
         inputs_set,
         end_threshold,
         max_step,
-        debug_frequency
+        debug_frequency,
     ):
         self.current_value_function = copy.deepcopy(states_space)
         self.inputs_space = copy.deepcopy(states_space)
@@ -60,14 +60,13 @@ class DynamicProgramming:
         # TODO: change stateSpace.values as ndarray.
         optimal_inputs_index = np.argmin(next_value_function_set, axis=0)
 
-        new_value_function = np.choose(
-            optimal_inputs_index, next_value_function_set
-        )
+        new_value_function = np.choose(optimal_inputs_index, next_value_function_set)
 
-        evaluation_value = max(abs(new_value_function - self.current_value_function.values))
+        evaluation_value = max(
+            abs(new_value_function - self.current_value_function.values)
+        )
 
         self.current_value_function.values = new_value_function
         self.inputs_space.values = optimal_inputs_index
 
         return evaluation_value
-

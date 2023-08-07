@@ -2,7 +2,9 @@ import unittest
 
 import numpy as np
 
-from modules.dynamic_programming.dynamic_programming_in_finite_time import DynamicProgramming
+from modules.dynamic_programming.dynamic_programming_in_finite_time import (
+    DynamicProgramming,
+)
 from modules.states_space.states_space import StatesSpace
 from modules.states_space.transition_matrix import *
 

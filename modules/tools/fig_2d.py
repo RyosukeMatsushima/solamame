@@ -38,7 +38,7 @@ class Fig2D:
         self.ax.plot(data[0], data[1], label=label)
 
     def add_img(self, data, extent=None, aspect=None):
-        self.ax.imshow(data, extent=extent, aspect=aspect, origin='lower')
+        self.ax.imshow(data, extent=extent, aspect=aspect, origin="lower")
 
     def show(self):
         plt.legend()

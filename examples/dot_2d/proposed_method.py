@@ -14,14 +14,15 @@ is_reached_threshold = 10 ** (-7)
 
 base = Base()
 
-calculate_proposed_method(base.statesSpace,
-                          base.stage_cost_function,
-                          base.dynamics,
-                          base.evaluate,
-                          base.inputs_set,
-                          base.goal_state,
-                          cost_resolution,
-                          min_cost,
-                          max_cost,
-                          is_reached_threshold)
-
+calculate_proposed_method(
+    base.statesSpace,
+    base.stage_cost_function,
+    base.dynamics,
+    base.evaluate,
+    base.inputs_set,
+    base.goal_state,
+    cost_resolution,
+    min_cost,
+    max_cost,
+    is_reached_threshold,
+)
