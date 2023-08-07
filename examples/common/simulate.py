@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def simulate(model, inputs_space, inputs_set, start_time, end_time):
     time = start_time
-    dt = 10 ** (-2)
+    dt = 10 ** (-3)
     max_step = int((end_time - start_time) / dt)
 
     df = pd.DataFrame(columns=["time"] + [ axis.name for axis in inputs_space.axes ])
@@ -20,11 +20,15 @@ def simulate(model, inputs_space, inputs_set, start_time, end_time):
 
         state = {axes_name[i]: s for i, s in enumerate(model.state)}
         print(state)
-        element_number = inputs_space.get_element_number(state)
-        print(element_number)
-        print(inputs_set)
-        print(inputs_space.values)
-        model.input = inputs_set[inputs_space.values[element_number]]
+
+        try:
+            element_number = inputs_space.get_element_number(state)
+            print(element_number)
+            model.input = inputs_set[inputs_space.values[element_number]]
+        except ValueError as e:
+            print(e)
+            break
+
         print(model.input)
         tmp_se = pd.Series(tmp_data, index=df.columns)
         df = df.append(tmp_se, ignore_index=True)

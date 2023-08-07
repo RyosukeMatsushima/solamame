@@ -30,6 +30,10 @@ class Axis:
         return self.min_value + point / self.resolution
 
     def get_point(self, value):
+        if value < self.min_value:
+            raise ValueError("The input value: {} is less than min value: {}".format(value, self.min_value))
+        if self.max_value < value:
+            raise ValueError("The input value: {} is more than max value: {}".format(value, self.min_value))
         return int((value - self.min_value) * self.resolution + 0.5)
 
     def get_info(self):
