@@ -17,19 +17,23 @@ class Base(BaseCommon):
         ]
 
         # Define the start and goal points
-        self.goal_state = {"X": 0.0,
-                           "Z": 0.0,
-                           "theta": 0.0,
-                           "x_dot": 0.0,
-                           "z_dot": 0.0,
-                           "theta_dot": 0.0}
+        self.goal_state = {
+            "X": 0.0,
+            "Z": 0.0,
+            "theta": 0.0,
+            "x_dot": 0.0,
+            "z_dot": 0.0,
+            "theta_dot": 0.0,
+        }
 
-        self.goal = (self.goal_state["X"],
-                     self.goal_state["Z"],
-                     self.goal_state["theta"],
-                     self.goal_state["x_dot"],
-                     self.goal_state["z_dot"],
-                     self.goal_state["theta_dot"])
+        self.goal = (
+            self.goal_state["X"],
+            self.goal_state["Z"],
+            self.goal_state["theta"],
+            self.goal_state["x_dot"],
+            self.goal_state["z_dot"],
+            self.goal_state["theta_dot"],
+        )
 
         # create state space
         self.statesSpace = StatesSpace()
@@ -41,12 +45,14 @@ class Base(BaseCommon):
         self.statesSpace.add_axis("theta_dot", -1, 1, 2)
         self.statesSpace.create()
 
-        self.init_state = {"X": 0.3,
-                           "Z": 0.0,
-                           "theta": 0.0,
-                           "x_dot": 0.0,
-                           "z_dot": 0.0,
-                           "theta_dot": 0.0}
+        self.init_state = {
+            "X": 0.3,
+            "Z": 0.0,
+            "theta": 0.0,
+            "x_dot": 0.0,
+            "z_dot": 0.0,
+            "theta_dot": 0.0,
+        }
 
         self.model = Drone2D(tuple(self.init_state.values()))
 
