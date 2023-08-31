@@ -23,7 +23,6 @@ def simulate(model, inputs_space, inputs_set, start_time, end_time):
 
         try:
             element_number = inputs_space.get_element_number(state)
-            print(element_number)
             model.input = inputs_set[inputs_space.values[element_number]]
         except ValueError as e:
             print(e)

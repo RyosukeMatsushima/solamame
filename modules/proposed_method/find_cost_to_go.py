@@ -14,6 +14,7 @@ class FindCostToGo:
         cost_resolution,
         max_cost,
         init_cost,
+        transition_matrix_set_normal
     ):
         self.cost_to_go_space = copy.deepcopy(goal_probabilistic_space)
         self.inputs_space = copy.deepcopy(goal_probabilistic_space)
@@ -24,6 +25,8 @@ class FindCostToGo:
         self.cost_resolution = cost_resolution
         self.max_cost = max_cost
         self.init_cost = init_cost
+
+        self.transition_matrix_set_normal = transition_matrix_set_normal
 
     def calculate(self, is_reached_threshold):
         transition_matrix = np.sum(self.transition_matrix_set, axis=0) / len(
@@ -56,7 +59,7 @@ class FindCostToGo:
         next_value_function_set = np.array(
             [
                 transition_matrix @ cost_to_go
-                for transition_matrix in self.transition_matrix_set
+                for transition_matrix in self.transition_matrix_set_normal
             ]
         )
 

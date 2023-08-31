@@ -33,7 +33,7 @@ class BaseCommon:
         )
         fig2D = Fig2D()
 
-        aspect = 0.2
+        aspect = 1
 
         fig2D.add_img(
             img,
