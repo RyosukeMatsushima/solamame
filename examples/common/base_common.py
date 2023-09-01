@@ -27,13 +27,11 @@ class BaseCommon:
     def terminal_cost_function(self, element_number):
         return 0.0 if self.is_goal(element_number) else 100.0
 
-    def show_fig_with_path(self, graph_axes, slice_point, state_space, result):
+    def show_fig_with_path(self, graph_axes, slice_point, state_space, result, aspect=1):
         img = np.array(
             state_space.get_2d_sheet(graph_axes[0], graph_axes[1], slice_point)
         )
         fig2D = Fig2D()
-
-        aspect = 1
 
         x_axis = state_space.axis_named(graph_axes[0])
         y_axis = state_space.axis_named(graph_axes[1])
