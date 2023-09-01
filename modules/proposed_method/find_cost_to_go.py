@@ -37,21 +37,22 @@ class FindCostToGo:
 
         # set -1 as invalid value
         # TODO: set init value as max cost
-        cost_to_go = np.full_like(current_probablistic_space, -1)
+        cost_to_go = np.full_like(current_probablistic_space, self.max_cost)
 
         # calculate cost to go function
         for cost in tqdm(
             np.arange(self.init_cost, self.max_cost, self.cost_resolution)
         ):
-            current_probablistic_space = transition_matrix @ current_probablistic_space
 
             threshold = self.get_threshold(
                 current_probablistic_space, is_reached_threshold
             )
             reachable_points = np.where(
-                current_probablistic_space > threshold, cost, -1
+                current_probablistic_space > threshold, cost, self.max_cost
             )
-            cost_to_go = np.where(cost_to_go > 0, cost_to_go, reachable_points)
+            cost_to_go = np.where(cost_to_go < cost, cost_to_go, reachable_points)
+
+            current_probablistic_space = transition_matrix @ current_probablistic_space
 
         self.goal_probabilistic_space.values = cost_to_go
 
