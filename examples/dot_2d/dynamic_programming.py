@@ -9,7 +9,7 @@ from examples.dot_2d.base import Base
 
 time_step = 0.01
 
-end_threshold = 0.00001
+end_threshold = 0.01
 max_step = 100000
 debug_frequency = 10
 

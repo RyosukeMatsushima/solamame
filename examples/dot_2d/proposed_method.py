@@ -9,8 +9,8 @@ from examples.dot_2d.base import Base
 
 cost_resolution = 0.01
 min_cost = 0
-max_cost = 130
-is_reached_threshold = 10 ** (-7)
+max_cost = 300
+is_reached_threshold = 10 ** (-8)
 
 base = Base()
 

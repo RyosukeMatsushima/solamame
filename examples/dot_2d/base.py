@@ -22,13 +22,13 @@ class Base(BaseCommon):
         ]
 
         # Define the start and goal points
-        self.goal_state = {"x": 4, "y": 2}
+        self.goal_state = {"x": 1, "y": 2}
         self.goal = (self.goal_state["x"], self.goal_state["y"])
 
         # create state space
         self.statesSpace = StatesSpace()
-        self.statesSpace.add_axis("x", 0, 10, 3)
-        self.statesSpace.add_axis("y", 0, 8, 3)
+        self.statesSpace.add_axis("x", 0, 10, 5)
+        self.statesSpace.add_axis("y", 0, 8, 5)
         self.statesSpace.create()
 
         self.init_state = {"x": 3, "y": 7}
@@ -56,34 +56,18 @@ class Base(BaseCommon):
 
     def evaluate(self, inputs_space, cost_to_go_space):
         start_time = 0.0
-        end_time = 20.0
+        end_time = 10.0
 
         result = simulate(
             self.model, inputs_space, self.inputs_set, start_time, end_time
         )
 
-        fig2D = Fig2D()
-
         # TODO: modify figures
         state_space = cost_to_go_space
-
-        # state_space.values = functions.obstacle_cost_map
-
-        fig2D.add_img(np.array(state_space.get_2d_sheet("x", "y", {"x": 0, "y": 0})).T)
-        fig2D.add_line(
-            "path",
-            [
-                result["X"].to_numpy() * state_space.axis_named("x").resolution,
-                result["Y"].to_numpy() * state_space.axis_named("y").resolution,
-            ],
+        self.show_fig_with_path(
+            ["x", "y"],
+            {'x': 0., 'y': 0.},
+            state_space,
+            result,
         )
 
-        input_index = inputs_space.get_2d_sheet("x", "y", {"x": 0, "y": 0})
-        input_vector_space = np.array(
-            [[self.inputs_set[index] for index in l] for l in input_index]
-        )
-        fig2D.add_vector_field("inputs_space", input_vector_space)
-
-        fig2D.show()
-
-        print(result["X"].to_numpy())
