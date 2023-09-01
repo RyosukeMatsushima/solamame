@@ -35,13 +35,16 @@ class BaseCommon:
 
         aspect = 1
 
+        x_axis = state_space.axis_named(graph_axes[0])
+        y_axis = state_space.axis_named(graph_axes[1])
+
         fig2D.add_img(
-            img,
+            img.T,
             [
-                state_space.axis_named(graph_axes[0]).min_value,
-                state_space.axis_named(graph_axes[0]).max_value,
-                state_space.axis_named(graph_axes[1]).min_value,
-                state_space.axis_named(graph_axes[1]).max_value,
+                x_axis.min_value - 1 / x_axis.resolution * 0.5,
+                x_axis.max_value + 1 / x_axis.resolution * 0.5,
+                y_axis.min_value - 1 / y_axis.resolution * 0.5,
+                y_axis.max_value + 1 / y_axis.resolution * 0.5,
             ],
             aspect,
         )
