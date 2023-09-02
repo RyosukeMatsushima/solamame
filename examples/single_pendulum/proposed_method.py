@@ -12,11 +12,15 @@ min_cost = 0
 max_cost = 3
 is_reached_threshold = 10 ** (-2)
 
+time_step = 0.001
+
 base = Base()
 
 calculate_proposed_method(
     base.statesSpace,
     base.stage_cost_function,
+    base.get_stage_cost_map_set(time_step),
+    base.get_transition_matrix_set(time_step),
     base.dynamics,
     base.evaluate,
     base.inputs_set,

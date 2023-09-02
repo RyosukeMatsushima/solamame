@@ -1,5 +1,6 @@
 from modules.states_space.states_space import StatesSpace
 from modules.tools.fig_2d import *
+from modules.states_space.transition_matrix import *
 
 from examples.common.simulate import simulate
 
@@ -23,6 +24,31 @@ class BaseCommon:
         inputs_norm = abs(inputs)
         edge_cost = 1.0 if self.is_edge(element_number) else 0.0
         return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 100 + edge_cost * 100
+
+    def get_stage_cost_map_set(self, time_step):
+        stage_cost_map_set = np.array( [ self.stage_cost_map(inputs, time_step) for inputs in self.inputs_set ] )
+        return stage_cost_map_set
+
+    def stage_cost_map(self, inputs, time_step):
+        return (
+            np.array(
+                [
+                    self.stage_cost_function(element_number, inputs)
+                    for element_number in range(self.statesSpace.element_count)
+                ]
+            )
+            * time_step
+        )
+
+    def transition_function(self, element_number, inputs):
+        states = list(self.statesSpace.get_states_from(element_number).values())
+        return self.dynamics(states, inputs)
+
+    def get_transition_matrix_set(self, time_step):
+        transition_matrix_set = get_transition_matrix(
+            self.statesSpace, self.transition_function, self.inputs_set, time_step
+        )
+        return transition_matrix_set
 
     def terminal_cost_function(self, element_number):
         return 0.0 if self.is_goal(element_number) else 100.0

@@ -8,6 +8,8 @@ from modules.states_space.transition_matrix import *
 def calculate_proposed_method(
     proballistic_space,
     stage_cost_function,
+    stage_cost_map_set,
+    transition_matrix_set_normal,
     dynamics,
     evaluate,
     inputs_set,
@@ -32,10 +34,6 @@ def calculate_proposed_method(
 
         return states_dt / stage_cost
 
-    def transition_function_normal(element_number, inputs):
-        states = list(proballistic_space.get_states_from(element_number).values())
-        return dynamics(states, inputs)
-
     # create transition matrix
     print("calculate transition_matrix_set")
 
@@ -45,17 +43,12 @@ def calculate_proposed_method(
         proballistic_space, transition_function, inputs_set, cost_resolution
     )
 
-    time_resolution = 0.0001
-    transition_matrix_set_normal = get_transition_matrix(
-        proballistic_space, transition_function_normal, inputs_set, time_resolution
-    )
-
     goal_element_number = proballistic_space.get_element_number(goal_state)
     proballistic_space.values.fill(0.0)
     proballistic_space.values[goal_element_number] = 1.0
 
     findCostToGo = FindCostToGo(
-        proballistic_space, transition_matrix_set, cost_resolution, max_cost, min_cost, transition_matrix_set_normal
+        proballistic_space, transition_matrix_set, stage_cost_map_set, cost_resolution, max_cost, min_cost, transition_matrix_set_normal
     )
 
     print("start findCostToGo")

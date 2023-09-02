@@ -9,8 +9,8 @@ from examples.single_pendulum.base import *
 
 def calculate_dynamic_programming(
     statesSpace,
-    stage_cost_function,
-    dynamics,
+    stage_cost_map_set,
+    transition_matrix_set,
     evaluate,
     inputs_set,
     terminal_cost_function,
@@ -19,17 +19,6 @@ def calculate_dynamic_programming(
     max_step,
     debug_frequency,
 ):
-    def stage_cost_map(inputs):
-        return (
-            np.array(
-                [
-                    stage_cost_function(element_number, inputs)
-                    for element_number in range(statesSpace.element_count)
-                ]
-            )
-            * time_step
-        )
-
     def terminal_cost_map():
         return np.array(
             [
@@ -38,18 +27,7 @@ def calculate_dynamic_programming(
             ]
         )
 
-    def transition_function(element_number, inputs):
-        states = list(statesSpace.get_states_from(element_number).values())
-        return dynamics(states, inputs)
-
     start_time = time.time()
-
-    # create transition matrix
-    transition_matrix_set = get_transition_matrix(
-        statesSpace, transition_function, inputs_set, time_step
-    )
-
-    stage_cost_map_set = np.array( [ stage_cost_map(inputs) for inputs in inputs_set ] )
 
     dynamicProgramming = DynamicProgramming(
         statesSpace,
