@@ -37,7 +37,7 @@ class Base(BaseCommon):
         obstacle_cost = 1.0 if self.is_obstacle(element_number) else 0.0
         inputs_norm = abs(inputs)
         edge_cost = 1.0 if self.is_edge(element_number) else 0.0
-        return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 100 + edge_cost * 100
+        return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 0 + edge_cost * 100
 
     def evaluate(self, inputs_space, cost_to_go_space):
         start_time = 0.0
