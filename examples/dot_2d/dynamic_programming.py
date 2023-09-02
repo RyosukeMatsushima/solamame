@@ -17,8 +17,8 @@ base = Base()
 
 calculate_dynamic_programming(
     base.statesSpace,
-    base.stage_cost_function,
-    base.dynamics,
+    base.get_stage_cost_map_set(time_step),
+    base.get_transition_matrix_set(time_step),
     base.evaluate,
     base.inputs_set,
     base.terminal_cost_function,

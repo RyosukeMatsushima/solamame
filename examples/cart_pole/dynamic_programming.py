@@ -8,7 +8,7 @@ from examples.common.dynamic_programming_common import *
 from examples.cart_pole.base import Base
 
 time_step = 0.001
-end_threshold = 0.00001
+end_threshold = 0.001
 max_step = 100000
 debug_frequency = 10
 
@@ -16,8 +16,8 @@ base = Base()
 
 calculate_dynamic_programming(
     base.statesSpace,
-    base.stage_cost_function,
-    base.dynamics,
+    base.get_stage_cost_map_set(time_step),
+    base.get_transition_matrix_set(time_step),
     base.evaluate,
     base.inputs_set,
     base.terminal_cost_function,
