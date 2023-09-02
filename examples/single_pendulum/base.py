@@ -50,7 +50,7 @@ class Base(BaseCommon):
         state_space = cost_to_go_space
         self.show_fig_with_path(
             ["x", "x_dot"],
-            {'x': 0., 'x_dot': 0.},
+            {"x": 0.0, "x_dot": 0.0},
             state_space,
             result,
             aspect=0.2,
@@ -58,9 +58,8 @@ class Base(BaseCommon):
 
         self.show_fig_with_path(
             ["x", "x_dot"],
-            {'x': 0., 'x_dot': 0.},
+            {"x": 0.0, "x_dot": 0.0},
             inputs_space,
             result,
             aspect=0.2,
         )
-

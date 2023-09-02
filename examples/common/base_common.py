@@ -26,7 +26,9 @@ class BaseCommon:
         return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 100 + edge_cost * 100
 
     def get_stage_cost_map_set(self, time_step):
-        stage_cost_map_set = np.array( [ self.stage_cost_map(inputs, time_step) for inputs in self.inputs_set ] )
+        stage_cost_map_set = np.array(
+            [self.stage_cost_map(inputs, time_step) for inputs in self.inputs_set]
+        )
         return stage_cost_map_set
 
     def stage_cost_map(self, inputs, time_step):
@@ -53,7 +55,9 @@ class BaseCommon:
     def terminal_cost_function(self, element_number):
         return 0.0 if self.is_goal(element_number) else 100.0
 
-    def show_fig_with_path(self, graph_axes, slice_point, state_space, result, aspect=1):
+    def show_fig_with_path(
+        self, graph_axes, slice_point, state_space, result, aspect=1
+    ):
         img = np.array(
             state_space.get_2d_sheet(graph_axes[0], graph_axes[1], slice_point)
         )

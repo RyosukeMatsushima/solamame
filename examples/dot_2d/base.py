@@ -66,8 +66,7 @@ class Base(BaseCommon):
         state_space = cost_to_go_space
         self.show_fig_with_path(
             ["x", "y"],
-            {'x': 0., 'y': 0.},
+            {"x": 0.0, "y": 0.0},
             state_space,
             result,
         )
-

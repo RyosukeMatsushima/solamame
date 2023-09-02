@@ -47,12 +47,15 @@ class DynamicProgramming:
         raise ValueError("over max_step")
 
     def next_step(self):
-        next_value_function_set = np.array(
-            [
-                transition_matrix @ self.current_value_function.values
-                for transition_matrix in self.transition_matrix_set
-            ]
-        ) + self.stage_cost_map_set
+        next_value_function_set = (
+            np.array(
+                [
+                    transition_matrix @ self.current_value_function.values
+                    for transition_matrix in self.transition_matrix_set
+                ]
+            )
+            + self.stage_cost_map_set
+        )
 
         # TODO: change stateSpace.values as ndarray.
         optimal_inputs_index = np.argmin(next_value_function_set, axis=0)

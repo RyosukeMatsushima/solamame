@@ -50,4 +50,3 @@ def calculate_dynamic_programming(
     print("elapsed_time: {} [sec]".format(elapsed_time))
 
     evaluate(dynamicProgramming.inputs_space, dynamicProgramming.current_value_function)
-

@@ -48,7 +48,13 @@ def calculate_proposed_method(
     proballistic_space.values[goal_element_number] = 1.0
 
     findCostToGo = FindCostToGo(
-        proballistic_space, transition_matrix_set, stage_cost_map_set, cost_resolution, max_cost, min_cost, transition_matrix_set_normal
+        proballistic_space,
+        transition_matrix_set,
+        stage_cost_map_set,
+        cost_resolution,
+        max_cost,
+        min_cost,
+        transition_matrix_set_normal,
     )
 
     print("start findCostToGo")
@@ -58,4 +64,3 @@ def calculate_proposed_method(
     print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
 
     evaluate(findCostToGo.inputs_space, findCostToGo.cost_to_go_space)
-
