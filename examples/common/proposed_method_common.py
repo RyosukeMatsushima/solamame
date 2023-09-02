@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 from modules.proposed_method.find_cost_to_go import FindCostToGo
 from modules.states_space.transition_matrix import *
@@ -37,6 +38,9 @@ def calculate_proposed_method(
 
     # create transition matrix
     print("calculate transition_matrix_set")
+
+    start = time.time()
+
     transition_matrix_set = get_transition_matrix(
         proballistic_space, transition_function, inputs_set, cost_resolution
     )
@@ -57,4 +61,8 @@ def calculate_proposed_method(
     print("start findCostToGo")
     findCostToGo.calculate(is_reached_threshold)
 
+    elapsed_time = time.time() - start
+    print("elapsed_time:{0}".format(elapsed_time) + "[sec]")
+
     evaluate(findCostToGo.inputs_space, findCostToGo.cost_to_go_space)
+

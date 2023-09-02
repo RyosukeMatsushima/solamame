@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 from modules.dynamic_programming.dynamic_programming import DynamicProgramming
 from modules.states_space.transition_matrix import *
@@ -41,6 +42,8 @@ def calculate_dynamic_programming(
         states = list(statesSpace.get_states_from(element_number).values())
         return dynamics(states, inputs)
 
+    start_time = time.time()
+
     # create transition matrix
     transition_matrix_set = get_transition_matrix(
         statesSpace, transition_function, inputs_set, time_step
@@ -63,4 +66,8 @@ def calculate_dynamic_programming(
 
     dynamicProgramming.calculate(debug_func)
 
+    elapsed_time = time.time() - start_time
+    print("elapsed_time: {} [sec]".format(elapsed_time))
+
     evaluate(dynamicProgramming.inputs_space, dynamicProgramming.current_value_function)
+
