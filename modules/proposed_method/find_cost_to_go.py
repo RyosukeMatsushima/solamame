@@ -11,7 +11,6 @@ class FindCostToGo:
         self,
         goal_probabilistic_space,
         transition_matrix_set,
-        start_cost_map_set,
         cost_resolution,
         max_cost,
         init_cost,
@@ -22,7 +21,6 @@ class FindCostToGo:
 
         self.goal_probabilistic_space = goal_probabilistic_space
         self.transition_matrix_set = transition_matrix_set
-        self.start_cost_map_set = start_cost_map_set
 
         self.cost_resolution = cost_resolution
         self.max_cost = max_cost
@@ -65,7 +63,6 @@ class FindCostToGo:
                     for transition_matrix in self.transition_matrix_set_normal
                 ]
             )
-            + self.start_cost_map_set
         )
 
         # TODO: change stateSpace.values as ndarray.

@@ -19,7 +19,6 @@ base = Base()
 calculate_proposed_method(
     base.statesSpace,
     base.stage_cost_function,
-    base.get_stage_cost_map_set(time_step),
     base.get_transition_matrix_set(time_step),
     base.dynamics,
     base.evaluate,

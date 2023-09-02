@@ -8,7 +8,6 @@ from modules.states_space.transition_matrix import *
 def calculate_proposed_method(
     proballistic_space,
     stage_cost_function,
-    stage_cost_map_set,
     transition_matrix_set_normal,
     dynamics,
     evaluate,
@@ -50,7 +49,6 @@ def calculate_proposed_method(
     findCostToGo = FindCostToGo(
         proballistic_space,
         transition_matrix_set,
-        stage_cost_map_set,
         cost_resolution,
         max_cost,
         min_cost,
