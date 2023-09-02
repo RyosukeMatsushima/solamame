@@ -19,6 +19,8 @@ def calculate_proposed_method(
     def transition_function(element_number, inputs):
         states = list(proballistic_space.get_states_from(element_number).values())
         stage_cost = stage_cost_function(element_number, inputs)
+
+        # sgin of get_transition_matrix is opposite current implementation
         states_dt = dynamics(states, inputs)
 
         if stage_cost <= 0:
@@ -45,7 +47,8 @@ def calculate_proposed_method(
     )
 
     goal_element_number = proballistic_space.get_element_number(goal_state)
-    proballistic_space.values[goal_element_number] = 1
+    proballistic_space.values.fill(0.0)
+    proballistic_space.values[goal_element_number] = 1.0
 
     findCostToGo = FindCostToGo(
         proballistic_space, transition_matrix_set, cost_resolution, max_cost, min_cost, transition_matrix_set_normal
