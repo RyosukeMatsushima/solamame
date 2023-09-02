@@ -27,8 +27,8 @@ class Base(BaseCommon):
 
         # create state space
         self.statesSpace = StatesSpace()
-        self.statesSpace.add_axis("x", 0, 10, 5)
-        self.statesSpace.add_axis("y", 0, 8, 5)
+        self.statesSpace.add_axis("x", 0, 10, 10)
+        self.statesSpace.add_axis("y", 0, 8, 10)
         self.statesSpace.create()
 
         self.init_state = {"x": 3, "y": 7}
@@ -52,7 +52,7 @@ class Base(BaseCommon):
         obstacle_cost = 1.0 if self.is_obstacle(element_number) else 0.0
         inputs_norm = sum([i**2 for i in inputs]) ** 0.5
         edge_cost = 1.0 if self.is_edge(element_number) else 0.0
-        return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 100 + edge_cost * 100
+        return inputs_norm * 1 + goal_cost * 1 + obstacle_cost * 100 + edge_cost * 1000
 
     def evaluate(self, inputs_space, cost_to_go_space):
         start_time = 0.0

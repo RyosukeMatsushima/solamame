@@ -7,10 +7,10 @@ from examples.common.proposed_method_common import *
 
 from examples.dot_2d.base import Base
 
-cost_resolution = 0.01
+cost_resolution = 0.06
 min_cost = 0
-max_cost = 300
-is_reached_threshold = 10 ** (-8)
+max_cost = 50
+is_reached_threshold = 10 ** (-25)
 
 base = Base()
 

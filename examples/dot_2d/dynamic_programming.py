@@ -7,7 +7,7 @@ from examples.common.dynamic_programming_common import *
 
 from examples.dot_2d.base import Base
 
-time_step = 0.01
+time_step = 0.05
 
 end_threshold = 0.01
 max_step = 100000
