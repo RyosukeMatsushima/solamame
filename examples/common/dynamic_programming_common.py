@@ -49,10 +49,12 @@ def calculate_dynamic_programming(
         statesSpace, transition_function, inputs_set, time_step
     )
 
+    stage_cost_map_set = np.array( [ stage_cost_map(inputs) for inputs in inputs_set ] )
+
     dynamicProgramming = DynamicProgramming(
         statesSpace,
         transition_matrix_set,
-        stage_cost_map,
+        stage_cost_map_set,
         terminal_cost_map,
         inputs_set,
         end_threshold,

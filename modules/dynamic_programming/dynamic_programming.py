@@ -9,7 +9,7 @@ class DynamicProgramming:
         self,
         states_space,
         transition_matrix_set,
-        stage_cost_map,
+        stage_cost_map_set,
         terminal_cost_map,
         inputs_set,
         end_threshold,
@@ -21,7 +21,7 @@ class DynamicProgramming:
         self.transition_matrix_set = transition_matrix_set
 
         # stage_cost_map(inputs) return stage_cost for every state space elements.
-        self.stage_cost_map = stage_cost_map
+        self.stage_cost_map_set = stage_cost_map_set
         self.terminal_cost_map = terminal_cost_map
         self.inputs_set = inputs_set
         self.end_threshold = end_threshold
@@ -49,13 +49,10 @@ class DynamicProgramming:
     def next_step(self):
         next_value_function_set = np.array(
             [
-                self.stage_cost_map(inputs)
-                + transition_matrix @ self.current_value_function.values
-                for inputs, transition_matrix in zip(
-                    self.inputs_set, self.transition_matrix_set
-                )
+                transition_matrix @ self.current_value_function.values
+                for transition_matrix in self.transition_matrix_set
             ]
-        )
+        ) + self.stage_cost_map_set
 
         # TODO: change stateSpace.values as ndarray.
         optimal_inputs_index = np.argmin(next_value_function_set, axis=0)
