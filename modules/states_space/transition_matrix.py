@@ -10,7 +10,7 @@ from modules.states_space.states_space import StatesSpace
 from modules.tools.fig_2d import *
 
 
-def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
+def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step, is_proposed_method=False):
     matrix_set = [
         lil_matrix((state_space.element_count, state_space.element_count))
         for _ in inputs_set
@@ -35,7 +35,10 @@ def get_transition_matrix(state_space, dynamic_function, inputs_set, time_step):
                 probability_to_remain -= probability_to_go_next
 
                 if next_element is not None:
-                    matrix[element_number, next_element] = probability_to_go_next
+                    if not is_proposed_method:
+                        matrix[element_number, next_element] = probability_to_go_next
+                    else:
+                        matrix[next_element, element_number] = probability_to_go_next
 
             if probability_to_remain < 0:
                 raise ValueError("probability_to_remain < 0: time_step is too big")

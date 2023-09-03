@@ -32,7 +32,7 @@ def calculate_proposed_method(
 
             return np.zeros(len(states_dt))
 
-        return states_dt / stage_cost
+        return -states_dt / stage_cost
 
     # create transition matrix
     print("calculate transition_matrix_set")
@@ -40,7 +40,7 @@ def calculate_proposed_method(
     start = time.time()
 
     transition_matrix_set = get_transition_matrix(
-        proballistic_space, transition_function, inputs_set, cost_resolution
+        proballistic_space, transition_function, inputs_set, cost_resolution, is_proposed_method=True
     )
 
     goal_element_number = proballistic_space.get_element_number(goal_state)
