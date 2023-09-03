@@ -10,7 +10,6 @@ from examples.common.base_common import BaseCommon
 class Base(BaseCommon):
     def __init__(self):
         self.inputs_set = [
-            (0, 0),
             (0, 1),
             (0, -1),
             (1, 0),
