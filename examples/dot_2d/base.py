@@ -54,7 +54,7 @@ class Base(BaseCommon):
         goal_cost = 0.0 if self.is_goal(element_number) else 1.0
         obstacle_cost = self.is_obstacle_0(element_number) + self.is_obstacle_1(element_number)
         inputs_norm = sum([i**2 for i in inputs]) ** 0.5
-        edge_cost = 1.0 if self.is_edge(element_number) else 0.0
+        edge_cost = self.is_edge(element_number)
         return inputs_norm * 0.5 + goal_cost * 1 + obstacle_cost * 10 + edge_cost * 1000
 
     def evaluate(self, inputs_space, cost_to_go_space):

@@ -9,9 +9,11 @@ from examples.two_wheel_rover_velocity_inputs.base import Base
 
 time_step = 0.01
 
-end_threshold = 0.001
+end_threshold = 0.01
 max_step = 100000
 debug_frequency = 2
+
+dumper = 0.99
 
 base = Base()
 
@@ -25,5 +27,6 @@ calculate_dynamic_programming(
     time_step,
     end_threshold,
     max_step,
+    dumper,
     debug_frequency,
 )

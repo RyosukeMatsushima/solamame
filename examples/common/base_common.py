@@ -14,9 +14,16 @@ class BaseCommon:
         return False
 
     def is_edge(self, element_number):
-        neigbors = self.statesSpace.get_neighbors_element_number(element_number)
-        is_edge = True in [None in i for i in neigbors.values()]
-        return is_edge
+        state = self.statesSpace.get_states_from(element_number)
+
+        # return 1.0 if each state is out of range
+        for key in state.keys():
+            axis = self.statesSpace.axis_named(key)
+            if state[key] < axis.min_value + 2 / axis.resolution:
+                return 1.0
+            if axis.max_value - 2 / axis.resolution < state[key]:
+                return 1.0
+        return 0.0
 
     def stage_cost_function(self, element_number, inputs):
         goal_cost = 0.0 if self.is_goal(element_number) else 1.0

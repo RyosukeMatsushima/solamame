@@ -17,6 +17,7 @@ def calculate_dynamic_programming(
     time_step,
     end_threshold,
     max_step,
+    dumper,
     debug_frequency,
 ):
     def terminal_cost_map():
@@ -37,6 +38,7 @@ def calculate_dynamic_programming(
         inputs_set,
         end_threshold,
         max_step,
+        dumper,
         debug_frequency,
     )
 

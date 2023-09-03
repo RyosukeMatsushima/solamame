@@ -11,6 +11,8 @@ end_threshold = 0.001
 max_step = 100000
 debug_frequency = 10
 
+dumper = 1.0
+
 base = Base()
 
 calculate_dynamic_programming(
@@ -23,5 +25,6 @@ calculate_dynamic_programming(
     time_step,
     end_threshold,
     max_step,
+    dumper,
     debug_frequency,
 )
