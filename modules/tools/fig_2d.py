@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 # TODO: remove
 def show_data(data):
     plt.figure()
@@ -48,7 +47,7 @@ class Fig2D:
 
     def save(self, path, xlabel=None, ylabel=None, title=None):
         self.add_label(xlabel, ylabel, title)
-        plt.savefig(path, dpi=300)
+        plt.savefig(path, dpi=300, bbox_inches="tight", transparent=True)
 
     def add_label(self, xlabel=None, ylabel=None, title=None):
         plt.legend()
