@@ -63,7 +63,7 @@ class BaseCommon:
         return 0.0 if self.is_goal(element_number) else 100.0
 
     def show_fig_with_path(
-        self, graph_axes, slice_point, state_space, result, aspect=1
+        self, graph_axes, slice_point, state_space, result, aspect=1, save_path=None, label=None, xlabel=None, ylabel=None
     ):
         img = np.array(
             state_space.get_2d_sheet(graph_axes[0], graph_axes[1], slice_point)
@@ -82,6 +82,7 @@ class BaseCommon:
                 y_axis.max_value + 1 / y_axis.resolution * 0.5,
             ],
             aspect,
+            label=label,
         )
         fig2D.add_line(
             "path",
@@ -91,4 +92,7 @@ class BaseCommon:
             ],
         )
 
-        fig2D.show()
+        if save_path:
+            fig2D.save(save_path, xlabel=xlabel, ylabel=ylabel)
+        else:
+            fig2D.show(xlabel=xlabel, ylabel=ylabel)

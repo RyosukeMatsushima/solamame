@@ -16,10 +16,10 @@ def simulate(model, inputs_space, inputs_set, start_time, end_time):
     for s in range(0, max_step):
         time = s * dt
         tmp_data = tuple([time]) + model.state
-        print(time)
+        # print(time)
 
         state = {axes_name[i]: s for i, s in enumerate(model.state)}
-        print(state)
+        # print(state)
 
         try:
             element_number = inputs_space.get_element_number(state)
@@ -28,7 +28,7 @@ def simulate(model, inputs_space, inputs_set, start_time, end_time):
             print(e)
             break
 
-        print(model.input)
+        # print(model.input)
         tmp_se = pd.Series(tmp_data, index=df.columns)
         df = df.append(tmp_se, ignore_index=True)
         model.step(dt)

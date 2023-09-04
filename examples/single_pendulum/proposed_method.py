@@ -9,7 +9,7 @@ from examples.single_pendulum.base import Base
 
 cost_resolution = 0.001
 min_cost = 0
-max_cost = 3
+max_cost = 2.5
 is_reached_threshold = 10 ** (-2)
 
 time_step = 0.001

@@ -12,8 +12,6 @@ class Base(BaseCommon):
         self.inputs_set = [
             0,
             -0.2,
-            -0.1,
-            0.1,
             0.2,
         ]
 
@@ -27,7 +25,7 @@ class Base(BaseCommon):
         self.statesSpace.add_axis("x_dot", -30, 30, 2)
         self.statesSpace.create()
 
-        self.init_state = {"x": 3.14, "x_dot": 0}
+        self.init_state = {"x": 3.1416, "x_dot": 0}
         self.model = SinglePendulum((self.init_state["x"], self.init_state["x_dot"]))
 
         self.dynamics = self.model.dynamics
@@ -48,12 +46,18 @@ class Base(BaseCommon):
         )
 
         state_space = cost_to_go_space
+        state_space.values = np.where(state_space.values < 2.5, state_space.values, 2.5)
+
         self.show_fig_with_path(
             ["x", "x_dot"],
             {"x": 0.0, "x_dot": 0.0},
             state_space,
             result,
-            aspect=0.2,
+            aspect=0.1,
+            save_path="path_with_state_space.eps",
+            label="cost function V(x)",
+            xlabel=r"$\theta$ [rad]",
+            ylabel=r"$\dot{\theta}$ [rad/s]",
         )
 
         self.show_fig_with_path(
@@ -61,5 +65,9 @@ class Base(BaseCommon):
             {"x": 0.0, "x_dot": 0.0},
             inputs_space,
             result,
-            aspect=0.2,
+            aspect=0.1,
+            save_path="path_with_inputs.eps",
+            label="inputs u(x)",
+            xlabel=r"$\theta$ [rad]",
+            ylabel=r"$\dot{\theta}$ [rad/s]",
         )

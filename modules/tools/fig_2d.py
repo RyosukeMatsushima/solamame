@@ -35,11 +35,26 @@ class Fig2D:
         Q = self.ax.quiver(X, Y, U.T, V.T, units="x", pivot="tip", width=0.02, scale=2)
 
     def add_line(self, label, data):
-        self.ax.plot(data[0], data[1], label=label)
+        self.ax.plot(data[0], data[1], label=label, color="orange")
 
-    def add_img(self, data, extent=None, aspect=None):
-        self.ax.imshow(data, extent=extent, aspect=aspect, origin="lower")
+    def add_img(self, data, extent=None, aspect=None, label=None):
+        pos = self.ax.imshow(data, extent=extent, aspect=aspect, origin="lower", cmap="GnBu")
 
-    def show(self):
-        plt.legend()
+        self.fig.colorbar(pos, ax=self.ax, shrink=0.8, label=label)
+
+    def show(self, xlabel=None, ylabel=None, title=None):
+        self.add_label(xlabel, ylabel, title)
         plt.show()
+
+    def save(self, path, xlabel=None, ylabel=None, title=None):
+        self.add_label(xlabel, ylabel, title)
+        plt.savefig(path, dpi=300)
+
+    def add_label(self, xlabel=None, ylabel=None, title=None):
+        plt.legend()
+        if xlabel is not None:
+            self.ax.set_xlabel(xlabel)
+        if ylabel is not None:
+            self.ax.set_ylabel(ylabel)
+        if title is not None:
+            self.ax.set_title(title)

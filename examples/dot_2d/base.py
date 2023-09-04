@@ -14,10 +14,10 @@ class Base(BaseCommon):
             (0, -1),
             (1, 0),
             (-1, 0),
-            (1, 1),
-            (1, -1),
-            (-1, 1),
-            (-1, -1),
+            (1 / (2 ** 0.5), 1 / (2 ** 0.5)),
+            (1 / (2 ** 0.5), -1 / (2 ** 0.5)),
+            (-1 / (2 ** 0.5), 1 / (2 ** 0.5)),
+            (-1 / (2 ** 0.5), -1 / (2 ** 0.5)),
         ]
 
         # Define the start and goal points
@@ -67,6 +67,7 @@ class Base(BaseCommon):
 
         # TODO: modify figures
         state_space = cost_to_go_space
+        state_space.values = np.where(state_space.values < 50, state_space.values, 50)
         self.show_fig_with_path(
             ["x", "y"],
             {"x": 0.0, "y": 0.0},
